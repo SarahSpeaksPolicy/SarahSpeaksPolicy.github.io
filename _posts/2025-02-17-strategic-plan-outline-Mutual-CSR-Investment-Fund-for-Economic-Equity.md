@@ -3,8 +3,8 @@ layout: post
 title: Strategic Plan Outline – Mutual CSR Investment Fund for Economic Equity
 date: 2025-02-17 00:13:00
 description: Strategic Plan Outline
-tags: formatting links
-categories: sample-posts
+tags: equity MutualCSR strategic-plan
+categories: mutual-csr-investment-fund
 ---
 
 <u>Strategic Plan Outline – Mutual CSR Investment Fund for Economic
