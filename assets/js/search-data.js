@@ -16,6 +16,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
+        },{id: "nav-projects",
+          title: "projects",
+          description: "A growing collection of your cool projects.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/projects/";
+          },
         },{id: "nav-cv",
           title: "cv",
           description: "This is a description of the page. You can modify it in &#39;_pages/cv.md&#39;. You can also change or remove the top pdf download button.",
@@ -23,21 +30,7 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "dropdown-publications",
-              title: "publications",
-              description: "",
-              section: "Dropdown",
-              handler: () => {
-                window.location.href = "";
-              },
-            },{id: "dropdown-projects",
-              title: "projects",
-              description: "",
-              section: "Dropdown",
-              handler: () => {
-                window.location.href = "";
-              },
-            },{id: "dropdown-blog",
+        },{id: "dropdown-blog",
               title: "blog",
               description: "",
               section: "Dropdown",
@@ -53,17 +46,6 @@ ninja.data = [{
       handler: () => {
         
           window.location.href = "/blog/2025/strategic-plan-outline-Mutual-CSR-Investment-Fund-for-Economic-Equity/";
-        
-      },
-    },{id: "post-a-placeholder-post",
-      
-        title: "a placeholder post",
-      
-      description: "holding a place for future",
-      section: "Posts",
-      handler: () => {
-        
-          window.location.href = "/blog/2025/place-holder/";
         
       },
     },{id: "news-a-simple-inline-announcement",
