@@ -44,7 +44,18 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/blog/";
               },
-            },{id: "post-a-placeholder-post",
+            },{id: "post-strategic-plan-outline-mutual-csr-investment-fund-for-economic-equity",
+      
+        title: "Strategic Plan Outline – Mutual CSR Investment Fund for Economic Equity",
+      
+      description: "Strategic Plan Outline",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/strategic-plan-outline-Mutual-CSR-Investment-Fund-for-Economic-Equity/";
+        
+      },
+    },{id: "post-a-placeholder-post",
       
         title: "a placeholder post",
       
