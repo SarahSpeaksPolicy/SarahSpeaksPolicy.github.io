@@ -7,7 +7,6 @@ tags: formatting links
 categories: sample-posts
 ---
 
-
 <u>Strategic Plan Outline – Mutual CSR Investment Fund for Economic
 Equity</u>
 
@@ -21,8 +20,8 @@ Professor Wayne Encalarde
 
 February 16, 2025
 
-**  
-**
+\*\*  
+\*\*
 
 **Strategic Plan Outline – Mutual CSR Investment Fund for Economic
 Equity**
