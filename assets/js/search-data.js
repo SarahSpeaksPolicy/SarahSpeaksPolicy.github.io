@@ -30,14 +30,7 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "dropdown-blog",
-              title: "blog",
-              description: "",
-              section: "Dropdown",
-              handler: () => {
-                window.location.href = "/blog/";
-              },
-            },{id: "post-strategic-plan-outline-mutual-csr-investment-fund-for-economic-equity",
+        },{id: "post-strategic-plan-outline-mutual-csr-investment-fund-for-economic-equity",
       
         title: "Strategic Plan Outline – Mutual CSR Investment Fund for Economic Equity",
       
