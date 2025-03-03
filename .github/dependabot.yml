@@ -18,3 +18,8 @@ updates:
     # Check for updates once a week
     schedule:
       interval: "daily"
+  - package-ecosystem: "bundler"
+    directory: "/"
+    schedule:
+      interval: "daily"
+  
