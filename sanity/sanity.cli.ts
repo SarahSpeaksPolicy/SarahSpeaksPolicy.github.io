@@ -5,4 +5,5 @@ export default defineCliConfig({
     projectId: '8yygddn2',
     dataset: 'production',
   },
+  studioHost: 'sarahspeakspolicy',
 });
