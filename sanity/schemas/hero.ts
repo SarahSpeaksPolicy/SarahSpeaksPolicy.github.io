@@ -17,18 +17,6 @@ export const hero = {
       rows: 3,
       description: 'Supporting sentence below the headline',
     },
-    {
-      name: 'ctaText',
-      title: 'Button Text',
-      type: 'string',
-      initialValue: 'Read My Work',
-    },
-    {
-      name: 'ctaLink',
-      title: 'Button Link',
-      type: 'string',
-      initialValue: '/blog',
-    },
   ],
   preview: { select: { title: 'headline' } },
 };
