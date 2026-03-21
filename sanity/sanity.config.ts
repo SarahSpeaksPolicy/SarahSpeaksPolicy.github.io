@@ -3,17 +3,13 @@ import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
 
 import { hero } from './schemas/hero';
-import { about } from './schemas/about';
-import { focusArea } from './schemas/focusArea';
-import { post } from './schemas/post';
-import { category } from './schemas/category';
+import { about, focusArea, category, post } from './schemas/index';
 
 export default defineConfig({
   name: 'sarahspeakspolicy',
   title: 'SarahSpeaksPolicy',
 
-  // Replace with your Sanity project ID after running `sanity init`
-  projectId: 'YOUR_PROJECT_ID',
+  projectId: '8yygddn2',
   dataset: 'production',
 
   plugins: [
