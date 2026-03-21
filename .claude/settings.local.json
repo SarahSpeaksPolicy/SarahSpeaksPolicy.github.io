@@ -5,7 +5,8 @@
       "Bash(npm audit:*)",
       "Bash(npx @astrojs/upgrade)",
       "Bash(npm run:*)",
-      "Bash(npx sanity:*)"
+      "Bash(npx sanity:*)",
+      "Bash(gh release:*)"
     ]
   }
 }
