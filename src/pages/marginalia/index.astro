@@ -39,7 +39,8 @@ const placeholderPosts = [
   },
 ];
 
-const displayPosts = posts.length > 0 ? posts : placeholderPosts;
+const hasContent = posts.length > 0;
+const displayPosts = hasContent ? posts : placeholderPosts;
 
 function formatDate(str: string) {
   return new Date(str).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -57,7 +58,12 @@ function formatDate(str: string) {
   </div>
 
   <section class="posts-body container section-pad">
-    <ul class="posts-list">
+    {!hasContent && (
+      <div class="placeholder-notice">
+        Sample content — add real entries in Sanity Studio to replace this.
+      </div>
+    )}
+    <ul class={`posts-list${!hasContent ? ' is-placeholder' : ''}`}>
       {displayPosts.map((post: any, i: number) => (
         <li class={`post-item ${i === 0 ? 'featured' : ''}`}>
           <article>
@@ -144,4 +150,21 @@ function formatDate(str: string) {
     transition: color 0.2s;
   }
   .read-more:hover { color: var(--navy); }
+
+  .placeholder-notice {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #b07d2a;
+    background: #fef3dc;
+    border: 1px dashed #e8b455;
+    border-radius: 4px;
+    padding: 0.45rem 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .is-placeholder .post-item { opacity: 0.45; }
+  .is-placeholder h2 { font-style: italic; }
 </style>

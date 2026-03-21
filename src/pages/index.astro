@@ -10,6 +10,7 @@ try {
   }`);
 } catch (e) {}
 
+const hasContent = !!about?.positioningStatement;
 const positioning = about?.positioningStatement ?? 'Policy with Purpose. Equity at the Center.';
 const shortBio = about?.shortBio ?? 'Sarah Pemberton Greenway is a policy strategist driving economic equity and community development — bringing rigorous analysis and human-centered advocacy to the institutions that shape everyday life.';
 
@@ -31,9 +32,12 @@ if (about?.photo?.asset) {
         }
       </div>
       <div class="home-intro">
+        {!hasContent && (
+          <div class="placeholder-notice">Sample content — update in Sanity Studio</div>
+        )}
         <p class="eyebrow">Policy Strategist &amp; Advocate</p>
-        <h1>{positioning}</h1>
-        <p class="short-bio">{shortBio}</p>
+        <h1 class={!hasContent ? 'is-placeholder' : ''}>{positioning}</h1>
+        <p class={`short-bio${!hasContent ? ' is-placeholder' : ''}`}>{shortBio}</p>
         <div class="hero-actions">
           <a href="/work" class="btn-primary">View My Work</a>
           <a href="/about" class="btn-ghost">Learn More</a>
@@ -136,6 +140,23 @@ if (about?.photo?.asset) {
     transition: border-color 0.2s, color 0.2s;
   }
   .btn-ghost:hover { border-color: var(--navy); }
+
+  .placeholder-notice {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #b07d2a;
+    background: #fef3dc;
+    border: 1px dashed #e8b455;
+    border-radius: 4px;
+    padding: 0.4rem 0.9rem;
+    margin-bottom: 1.25rem;
+  }
+
+  h1.is-placeholder,
+  .short-bio.is-placeholder { opacity: 0.4; font-style: italic; }
 
   @media (max-width: 960px) {
     .home-hero-inner {

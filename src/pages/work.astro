@@ -30,7 +30,8 @@ const placeholder = [
   { _id: '3', title: 'Community Investment Act: Summary & Commentary', description: 'Plain-language summary and policy commentary on recent federal community investment legislation.', category: 'Community Investment', publishedAt: '2024-05-20' },
 ];
 
-const displayWorks = works.length > 0 ? grouped : { 'Sample Work': placeholder };
+const hasContent = works.length > 0;
+const displayWorks = hasContent ? grouped : { 'Sample Work': placeholder };
 ---
 
 <Layout title="Policy & Work — Sarah Pemberton Greenway" description="White papers, policy summaries, and research by Sarah Pemberton Greenway.">
@@ -43,7 +44,12 @@ const displayWorks = works.length > 0 ? grouped : { 'Sample Work': placeholder }
     </div>
   </div>
 
-  <div class="work-body container section-pad">
+  <div class={`work-body container section-pad${!hasContent ? ' is-placeholder' : ''}`}>
+    {!hasContent && (
+      <div class="placeholder-notice">
+        Sample content — add real entries in Sanity Studio to replace this.
+      </div>
+    )}
     {Object.entries(displayWorks).map(([cat, items]) => (
       <section class="work-category">
         <h2 class="category-heading">{cat}</h2>
@@ -81,6 +87,20 @@ const displayWorks = works.length > 0 ? grouped : { 'Sample Work': placeholder }
 
 <style>
   .work-body { max-width: 860px; }
+
+  .placeholder-notice {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #b07d2a;
+    background: #fef3dc;
+    border: 1px dashed #e8b455;
+    border-radius: 4px;
+    padding: 0.45rem 1rem;
+    margin-bottom: 2.5rem;
+  }
 
   .work-category {
     margin-bottom: 4rem;
@@ -148,4 +168,7 @@ const displayWorks = works.length > 0 ? grouped : { 'Sample Work': placeholder }
     flex-shrink: 0;
   }
   .download-btn:hover { background: var(--navy-mid); }
+
+  .is-placeholder .work-item { opacity: 0.45; }
+  .is-placeholder .work-text h3 { font-style: italic; }
 </style>
