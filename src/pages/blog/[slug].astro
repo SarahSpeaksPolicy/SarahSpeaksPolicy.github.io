@@ -1,0 +1,138 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { sanityClient } from '../../lib/sanity';
+import { toHTML } from '@portabletext/to-html';
+
+const { slug } = Astro.params;
+
+let post: any = null;
+try {
+  post = await sanityClient.fetch(
+    `*[_type == "post" && slug.current == $slug][0] {
+      title, publishedAt, excerpt, body,
+      "category": category->title
+    }`,
+    { slug }
+  );
+} catch (e) {}
+
+if (!post) {
+  return Astro.redirect('/blog');
+}
+
+const bodyHTML = post.body ? toHTML(post.body) : '';
+
+function formatDate(str: string) {
+  return new Date(str).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+export async function getStaticPaths() {
+  let posts: any[] = [];
+  try {
+    const { createClient } = await import('@sanity/client');
+    const client = createClient({
+      projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
+      dataset: import.meta.env.PUBLIC_SANITY_DATASET ?? 'production',
+      apiVersion: '2024-01-01',
+      useCdn: false,
+    });
+    posts = await client.fetch(`*[_type == "post"]{ "slug": slug.current }`);
+  } catch (e) {}
+  return posts.map((p: any) => ({ params: { slug: p.slug } }));
+}
+---
+
+<Layout title={`${post.title} — Sarah Pemberton Greenway`} description={post.excerpt}>
+  <article class="post-page">
+    <header class="post-header">
+      <div class="container">
+        {post.category && <span class="post-cat">{post.category}</span>}
+        <h1>{post.title}</h1>
+        <div class="post-meta">
+          <span>By Sarah Pemberton Greenway</span>
+          <span class="sep">·</span>
+          <time>{formatDate(post.publishedAt)}</time>
+        </div>
+      </div>
+    </header>
+
+    <div class="post-body container">
+      <div class="prose" set:html={bodyHTML} />
+      <div class="post-footer">
+        <a href="/blog" class="back-link">← Back to all writing</a>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .post-header {
+    background: var(--navy);
+    color: white;
+    padding: clamp(4rem, 10vw, 7rem) 0 clamp(3rem, 6vw, 5rem);
+  }
+  .post-cat {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 1rem;
+  }
+  .post-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: white;
+    font-weight: 900;
+    max-width: 760px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+  .post-meta { color: rgba(255,255,255,0.5); font-size: 0.9rem; }
+  .sep { margin: 0 0.5rem; }
+
+  .post-body {
+    padding-top: clamp(3rem, 6vw, 5rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .prose {
+    max-width: 720px;
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: var(--text);
+  }
+  .prose :global(p) { margin-bottom: 1.5rem; }
+  .prose :global(h2) {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    color: var(--navy);
+    margin: 2.5rem 0 1rem;
+  }
+  .prose :global(h3) {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    color: var(--navy);
+    margin: 2rem 0 0.75rem;
+  }
+  .prose :global(ul), .prose :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .prose :global(li) { margin-bottom: 0.5rem; }
+  .prose :global(blockquote) {
+    border-left: 3px solid var(--gold);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 1.15rem;
+  }
+  .prose :global(a) { color: var(--gold); text-decoration: underline; }
+
+  .post-footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .back-link { color: var(--gold); font-weight: 600; font-size: 0.9rem; transition: color 0.2s; }
+  .back-link:hover { color: var(--navy); }
+</style>
