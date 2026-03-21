@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contact — Sarah Pemberton Greenway" description="Get in touch with Sarah Pemberton Greenway.">
+
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-label">Contact</span>
+      <h1>Get in Touch</h1>
+      <p>For speaking engagements, press inquiries, or policy collaboration.</p>
+    </div>
+  </div>
+
+  <div class="contact-body container section-pad">
+    <div class="contact-grid">
+      <div class="contact-item">
+        <h2>Email</h2>
+        <p><a href="mailto:sarah@sarahspeakspolicy.com">sarah@sarahspeakspolicy.com</a></p>
+      </div>
+      <div class="contact-item">
+        <h2>Speaking Inquiries</h2>
+        <p>For keynotes, panels, and event appearances, please reach out via email with details about your event and timeline.</p>
+      </div>
+      <div class="contact-item">
+        <h2>Press</h2>
+        <p>Members of the press may contact Sarah directly at the email above. Please include your publication and deadline in your message.</p>
+      </div>
+      <div class="contact-item">
+        <h2>Location</h2>
+        <p>Based in [City, State]</p>
+      </div>
+    </div>
+  </div>
+
+</Layout>
+
+<style>
+  .contact-body { max-width: 760px; }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .contact-item h2 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.6rem;
+  }
+
+  .contact-item p {
+    font-size: 0.97rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  .contact-item a {
+    color: var(--gold);
+    transition: color 0.2s;
+  }
+  .contact-item a:hover { color: var(--navy); }
+
+  @media (max-width: 600px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+  }
+</style>

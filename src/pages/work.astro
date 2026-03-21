@@ -1,0 +1,151 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { sanityClient } from '../lib/sanity';
+
+let works: any[] = [];
+let categories: any[] = [];
+try {
+  works = await sanityClient.fetch(`
+    *[_type == "policyWork"] | order(publishedAt desc) {
+      _id, title, description, publishedAt,
+      "category": category->title,
+      "fileUrl": file.asset->url,
+      externalUrl
+    }
+  `);
+  categories = await sanityClient.fetch(`*[_type == "category"] | order(title asc) { _id, title }`);
+} catch (e) {}
+
+// Group by category
+const grouped: Record<string, any[]> = {};
+for (const item of works) {
+  const cat = item.category ?? 'Uncategorized';
+  if (!grouped[cat]) grouped[cat] = [];
+  grouped[cat].push(item);
+}
+
+const placeholder = [
+  { _id: '1', title: 'Economic Equity Framework for Mid-Size Cities', description: 'A structured analysis of fiscal policy levers available to municipal governments for closing wealth gaps.', category: 'Economic Equity', publishedAt: '2024-10-01' },
+  { _id: '2', title: 'Workforce Pipeline Assessment Report', description: 'Evaluation of community college partnership models and their effectiveness in connecting graduates to quality employment.', category: 'Workforce Development', publishedAt: '2024-07-15' },
+  { _id: '3', title: 'Community Investment Act: Summary & Commentary', description: 'Plain-language summary and policy commentary on recent federal community investment legislation.', category: 'Community Investment', publishedAt: '2024-05-20' },
+];
+
+const displayWorks = works.length > 0 ? grouped : { 'Sample Work': placeholder };
+---
+
+<Layout title="Policy & Work — Sarah Pemberton Greenway" description="White papers, policy summaries, and research by Sarah Pemberton Greenway.">
+
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-label">Policy & Work</span>
+      <h1>Research &amp; Analysis</h1>
+      <p>White papers, policy summaries, and structured research — organized by topic.</p>
+    </div>
+  </div>
+
+  <div class="work-body container section-pad">
+    {Object.entries(displayWorks).map(([cat, items]) => (
+      <section class="work-category">
+        <h2 class="category-heading">{cat}</h2>
+        <ul class="work-list">
+          {items.map((item: any) => (
+            <li class="work-item">
+              <div class="work-text">
+                <h3>{item.title}</h3>
+                {item.description && <p>{item.description}</p>}
+                {item.publishedAt && (
+                  <span class="work-date">
+                    {new Date(item.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+                  </span>
+                )}
+              </div>
+              {(item.fileUrl || item.externalUrl) && (
+                <a
+                  href={item.fileUrl ?? item.externalUrl}
+                  target="_blank"
+                  rel="noopener"
+                  class="download-btn"
+                  download={item.fileUrl ? true : undefined}
+                >
+                  {item.fileUrl ? 'Download PDF' : 'View'}
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+
+</Layout>
+
+<style>
+  .work-body { max-width: 860px; }
+
+  .work-category {
+    margin-bottom: 4rem;
+  }
+
+  .category-heading {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--gold);
+    display: inline-block;
+  }
+
+  .work-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .work-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .work-item:last-child { border-bottom: none; }
+
+  .work-text { flex: 1; }
+  .work-text h3 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.4rem;
+    line-height: 1.35;
+  }
+  .work-text p {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+  }
+  .work-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+  }
+
+  .download-btn {
+    display: inline-block;
+    background: var(--navy);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.5rem 1.1rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .download-btn:hover { background: var(--navy-mid); }
+</style>

@@ -1,0 +1,177 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { sanityClient } from '../lib/sanity';
+import { toHTML } from '@portabletext/to-html';
+
+let about: any = null;
+try {
+  about = await sanityClient.fetch(`*[_type == "about"][0]`);
+} catch (e) {}
+
+const fullBioHTML = about?.fullBio ? toHTML(about.fullBio) : '';
+const speaking = about?.speakingEngagements ?? [];
+const publications = about?.publications ?? [];
+const education = about?.education ?? [];
+---
+
+<Layout title="About — Sarah Pemberton Greenway" description="Biography, speaking engagements, publications, and education.">
+
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-label">About</span>
+      <h1>Sarah Pemberton Greenway</h1>
+      <p>Policy strategist, advocate, and writer working at the intersection of economic equity and community development.</p>
+    </div>
+  </div>
+
+  <div class="about-body container section-pad">
+
+    <!-- BIO -->
+    <section class="about-section">
+      <h2 class="section-heading">Biography</h2>
+      {fullBioHTML
+        ? <div class="prose" set:html={fullBioHTML} />
+        : <div class="prose">
+            <p>Sarah Pemberton Greenway has spent over a decade at the intersection of policy, community, and economic justice. From municipal budget advocacy to statewide development initiatives, she brings both analytical depth and a genuine commitment to the people policies are meant to serve.</p>
+            <p>Her work centers a simple belief: economic opportunity shouldn't depend on your zip code. She has advised city councils, nonprofit coalitions, and legislative offices — always asking who gets left out of the room, and how to change that.</p>
+          </div>
+      }
+    </section>
+
+    <!-- SPEAKING -->
+    <section class="about-section">
+      <h2 class="section-heading">Speaking Engagements</h2>
+      {speaking.length > 0
+        ? <ul class="entry-list">
+            {speaking.map((s: any) => (
+              <li class="entry">
+                <div class="entry-main">
+                  <strong>{s.title}</strong>
+                  <span class="entry-sub">{s.event}{s.location ? ` — ${s.location}` : ''}</span>
+                </div>
+                {s.date && <span class="entry-date">{s.date}</span>}
+              </li>
+            ))}
+          </ul>
+        : <p class="empty-state">Speaking engagements will appear here once added in the CMS.</p>
+      }
+    </section>
+
+    <!-- PUBLICATIONS -->
+    <section class="about-section">
+      <h2 class="section-heading">Publications</h2>
+      {publications.length > 0
+        ? <ul class="entry-list">
+            {publications.map((p: any) => (
+              <li class="entry">
+                <div class="entry-main">
+                  {p.url
+                    ? <a href={p.url} target="_blank" rel="noopener" class="entry-link"><strong>{p.title}</strong></a>
+                    : <strong>{p.title}</strong>
+                  }
+                  <span class="entry-sub">{p.publisher}</span>
+                </div>
+                {p.date && <span class="entry-date">{p.date}</span>}
+              </li>
+            ))}
+          </ul>
+        : <p class="empty-state">Publications will appear here once added in the CMS.</p>
+      }
+    </section>
+
+    <!-- EDUCATION -->
+    <section class="about-section">
+      <h2 class="section-heading">Education</h2>
+      {education.length > 0
+        ? <ul class="entry-list">
+            {education.map((e: any) => (
+              <li class="entry">
+                <div class="entry-main">
+                  <strong>{e.degree}</strong>
+                  <span class="entry-sub">{e.institution}</span>
+                </div>
+                {e.year && <span class="entry-date">{e.year}</span>}
+              </li>
+            ))}
+          </ul>
+        : <p class="empty-state">Education will appear here once added in the CMS.</p>
+      }
+    </section>
+
+  </div>
+
+</Layout>
+
+<style>
+  .about-body {
+    max-width: 860px;
+  }
+
+  .about-section {
+    margin-bottom: 4rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .about-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 1.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .prose { font-size: 1.05rem; line-height: 1.9; color: var(--text-muted); }
+  .prose :global(p) { margin-bottom: 1.4rem; }
+
+  .entry-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .entry:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .entry-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .entry-main strong {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .entry-sub {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .entry-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .entry-link strong { color: var(--gold); transition: color 0.2s; }
+  .entry-link:hover strong { color: var(--navy); }
+
+  .empty-state {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+</style>

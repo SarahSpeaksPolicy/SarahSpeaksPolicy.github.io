@@ -3,7 +3,7 @@ import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
 
 import { hero } from './schemas/hero';
-import { about, focusArea, category, post } from './schemas/index';
+import { about, focusArea, category, policyWork, marginalia } from './schemas/index';
 
 export default defineConfig({
   name: 'sarahspeakspolicy',
@@ -25,8 +25,11 @@ export default defineConfig({
             S.divider(),
             S.listItem().title('Focus Areas').schemaType('focusArea')
               .child(S.documentTypeList('focusArea')),
-            S.listItem().title('Blog Posts').schemaType('post')
-              .child(S.documentTypeList('post')),
+            S.listItem().title('Policy & Work').schemaType('policyWork')
+              .child(S.documentTypeList('policyWork')),
+            S.divider(),
+            S.listItem().title('Marginalia').schemaType('marginalia')
+              .child(S.documentTypeList('marginalia')),
             S.listItem().title('Categories').schemaType('category')
               .child(S.documentTypeList('category')),
           ]),
@@ -35,6 +38,6 @@ export default defineConfig({
   ],
 
   schema: {
-    types: [hero, about, focusArea, post, category],
+    types: [hero, about, focusArea, category, policyWork, marginalia],
   },
 });

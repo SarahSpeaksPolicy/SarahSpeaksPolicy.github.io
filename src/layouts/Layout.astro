@@ -7,6 +7,8 @@ const {
   title = 'Sarah Pemberton Greenway',
   description = 'Policy strategist and advocate for economic equity and community development.',
 } = Astro.props;
+
+const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -31,20 +33,20 @@ const {
           Sarah<span>Speaks</span>Policy
         </a>
         <ul class="nav-links">
-          <li><a href="/#about">About</a></li>
-          <li><a href="/#focus">Focus</a></li>
-          <li><a href="/blog">Writing</a></li>
-          <li><a href="/#contact" class="nav-cta">Get in Touch</a></li>
+          <li><a href="/about" class={currentPath.startsWith('/about') ? 'active' : ''}>About</a></li>
+          <li><a href="/work" class={currentPath.startsWith('/work') ? 'active' : ''}>Policy & Work</a></li>
+          <li><a href="/marginalia" class={currentPath.startsWith('/marginalia') ? 'active' : ''}>Marginalia</a></li>
+          <li><a href="/contact" class={currentPath.startsWith('/contact') ? 'active' : ''}>Contact</a></li>
         </ul>
         <button class="hamburger" aria-label="Toggle menu" id="hamburger">
           <span></span><span></span><span></span>
         </button>
       </nav>
       <div class="mobile-menu" id="mobileMenu">
-        <a href="/#about">About</a>
-        <a href="/#focus">Focus</a>
-        <a href="/blog">Writing</a>
-        <a href="/#contact">Get in Touch</a>
+        <a href="/about">About</a>
+        <a href="/work">Policy & Work</a>
+        <a href="/marginalia">Marginalia</a>
+        <a href="/contact">Contact</a>
       </div>
     </header>
 
@@ -59,10 +61,10 @@ const {
           <p>Driving equitable economic change through principled policy leadership.</p>
         </div>
         <div class="footer-links">
-          <a href="/#about">About</a>
-          <a href="/#focus">Focus Areas</a>
-          <a href="/blog">Writing</a>
-          <a href="/#contact">Contact</a>
+          <a href="/about">About</a>
+          <a href="/work">Policy & Work</a>
+          <a href="/marginalia">Marginalia</a>
+          <a href="/contact">Contact</a>
         </div>
       </div>
       <div class="footer-bottom">
@@ -158,16 +160,12 @@ const {
     transition: color 0.2s;
     letter-spacing: 0.02em;
   }
-  .nav-links a:hover { color: var(--navy); }
-
-  .nav-cta {
-    background: var(--navy) !important;
-    color: var(--cream) !important;
-    padding: 0.5rem 1.25rem !important;
-    border-radius: 4px;
-    transition: background 0.2s !important;
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--navy); }
+  .nav-links a.active {
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 2px;
   }
-  .nav-cta:hover { background: var(--navy-mid) !important; }
 
   .hamburger {
     display: none;
@@ -225,7 +223,7 @@ const {
     flex-wrap: wrap;
   }
 
-  .footer-brand .wordmark { font-size: 1.1rem; display: block; margin-bottom: 0.75rem; }
+  .footer-brand .wordmark { font-size: 1.1rem; display: block; margin-bottom: 0.75rem; color: var(--white); }
   .footer-brand .wordmark span { color: var(--gold-light); }
   .footer-brand p { font-size: 0.9rem; max-width: 280px; line-height: 1.6; }
 
@@ -247,5 +245,35 @@ const {
     padding: 1.25rem 2rem;
     font-size: 0.8rem;
     color: rgba(255,255,255,0.35);
+  }
+
+  /* ── SHARED PAGE STYLES ── */
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 2rem; }
+  .section-pad { padding: var(--section-pad) 0; }
+
+  .page-hero {
+    background: var(--navy);
+    color: white;
+    padding: clamp(4rem, 10vw, 8rem) 0 clamp(3rem, 7vw, 6rem);
+  }
+  .page-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    color: white;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+  .page-hero .section-label { color: var(--gold-light); margin-bottom: 0.75rem; }
+  .page-hero p { color: rgba(255,255,255,0.65); max-width: 560px; font-size: 1.05rem; line-height: 1.8; }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    display: block;
   }
 </style>

@@ -5,23 +5,80 @@ export const about = {
   type: 'document',
   fields: [
     {
-      name: 'title',
-      title: 'Section Title',
+      name: 'positioningStatement',
+      title: 'Positioning Statement',
       type: 'string',
-      initialValue: 'About Sarah',
+      description: 'One-line statement shown on the homepage hero',
     },
     {
-      name: 'bio',
-      title: 'Biography',
+      name: 'shortBio',
+      title: 'Short Bio (Homepage)',
       type: 'text',
-      rows: 8,
-      description: 'Use blank lines to separate paragraphs',
+      rows: 4,
+      description: '3–4 sentences shown on the homepage',
+    },
+    {
+      name: 'fullBio',
+      title: 'Full Biography (About Page)',
+      type: 'array',
+      of: [{ type: 'block' }],
+      description: 'Longer biography for the About page',
     },
     {
       name: 'photo',
       title: 'Headshot / Photo',
       type: 'image',
       options: { hotspot: true },
+    },
+    {
+      name: 'speakingEngagements',
+      title: 'Speaking Engagements',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'title', title: 'Talk Title', type: 'string' },
+            { name: 'event', title: 'Event / Venue', type: 'string' },
+            { name: 'date', title: 'Date', type: 'string' },
+            { name: 'location', title: 'Location', type: 'string' },
+          ],
+          preview: { select: { title: 'title', subtitle: 'event' } },
+        },
+      ],
+    },
+    {
+      name: 'publications',
+      title: 'Publications',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'title', title: 'Title', type: 'string' },
+            { name: 'publisher', title: 'Publisher / Outlet', type: 'string' },
+            { name: 'date', title: 'Date', type: 'string' },
+            { name: 'url', title: 'URL', type: 'url' },
+          ],
+          preview: { select: { title: 'title', subtitle: 'publisher' } },
+        },
+      ],
+    },
+    {
+      name: 'education',
+      title: 'Education',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'degree', title: 'Degree', type: 'string' },
+            { name: 'institution', title: 'Institution', type: 'string' },
+            { name: 'year', title: 'Year', type: 'string' },
+          ],
+          preview: { select: { title: 'degree', subtitle: 'institution' } },
+        },
+      ],
     },
   ],
   preview: { prepare: () => ({ title: 'About Sarah' }) },
@@ -33,23 +90,9 @@ export const focusArea = {
   title: 'Focus Area',
   type: 'document',
   fields: [
-    {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-    },
-    {
-      name: 'description',
-      title: 'Description',
-      type: 'text',
-      rows: 3,
-    },
-    {
-      name: 'order',
-      title: 'Display Order',
-      type: 'number',
-      initialValue: 1,
-    },
+    { name: 'title', title: 'Title', type: 'string' },
+    { name: 'description', title: 'Description', type: 'text', rows: 3 },
+    { name: 'order', title: 'Display Order', type: 'number', initialValue: 1 },
   ],
   orderings: [{ title: 'Order', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
   preview: { select: { title: 'title', subtitle: 'description' } },
@@ -65,10 +108,54 @@ export const category = {
   ],
 };
 
-// post.ts
-export const post = {
-  name: 'post',
-  title: 'Blog Post',
+// policyWork.ts
+export const policyWork = {
+  name: 'policyWork',
+  title: 'Policy & Work',
+  type: 'document',
+  fields: [
+    {
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+      validation: (R: any) => R.required(),
+    },
+    {
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      rows: 3,
+    },
+    {
+      name: 'category',
+      title: 'Category',
+      type: 'reference',
+      to: [{ type: 'category' }],
+    },
+    {
+      name: 'file',
+      title: 'PDF / Document',
+      type: 'file',
+      options: { accept: '.pdf' },
+    },
+    {
+      name: 'externalUrl',
+      title: 'External URL (if no PDF)',
+      type: 'url',
+    },
+    {
+      name: 'publishedAt',
+      title: 'Date',
+      type: 'date',
+    },
+  ],
+  preview: { select: { title: 'title', subtitle: 'description' } },
+};
+
+// marginalia.ts
+export const marginalia = {
+  name: 'marginalia',
+  title: 'Marginalia',
   type: 'document',
   fields: [
     {
@@ -100,7 +187,6 @@ export const post = {
       title: 'Excerpt',
       type: 'text',
       rows: 3,
-      description: 'Short preview shown on the blog listing page',
     },
     {
       name: 'body',
@@ -133,7 +219,5 @@ export const post = {
       ],
     },
   ],
-  preview: {
-    select: { title: 'title', subtitle: 'publishedAt' },
-  },
+  preview: { select: { title: 'title', subtitle: 'publishedAt' } },
 };
