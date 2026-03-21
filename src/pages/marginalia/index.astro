@@ -85,12 +85,12 @@ function formatDate(str: string) {
 </Layout>
 
 <style>
-  .posts-body { max-width: 860px; }
+  .posts-body { max-width: var(--max-width); }
 
   .posts-list {
     list-style: none;
-    display: flex;
-    flex-direction: column;
+    display: block;
+    max-width: 860px;
   }
 
   .post-item {

@@ -86,7 +86,7 @@ const displayWorks = hasContent ? grouped : { 'Sample Work': placeholder };
 </Layout>
 
 <style>
-  .work-body { max-width: 860px; }
+  .work-body { max-width: var(--max-width); }
 
   .placeholder-notice {
     display: inline-block;
@@ -103,6 +103,7 @@ const displayWorks = hasContent ? grouped : { 'Sample Work': placeholder };
   }
 
   .work-category {
+    max-width: 860px;
     margin-bottom: 4rem;
   }
 

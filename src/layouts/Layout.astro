@@ -68,7 +68,7 @@ const currentPath = Astro.url.pathname;
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Sarah Pemberton Greenway. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Sarah Pemberton Greenway.<br class="mobile-break" /> All rights reserved.</p>
         <a href="https://sarahspeakspolicy.sanity.studio" target="_blank" rel="noopener" class="edit-link">Edit</a>
       </div>
     </footer>
@@ -246,9 +246,16 @@ const currentPath = Astro.url.pathname;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     padding: 1.25rem 2rem;
     font-size: 0.8rem;
     color: rgba(255,255,255,0.7);
+  }
+
+  .mobile-break { display: none; }
+  @media (max-width: 480px) {
+    .mobile-break { display: block; }
   }
 
   .edit-link {
@@ -259,7 +266,10 @@ const currentPath = Astro.url.pathname;
   .edit-link:hover { color: rgba(255,255,255,0.8); }
 
   /* ── SHARED PAGE STYLES ── */
-  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 2rem; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 2rem !important; }
+  @media (max-width: 600px) {
+    .container { padding: 0 1.25rem !important; }
+  }
   .section-pad { padding: var(--section-pad) 0; }
 
   .page-hero {

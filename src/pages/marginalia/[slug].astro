@@ -1,19 +1,20 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { toHTML } from '@portabletext/to-html';
+import { marked } from 'marked';
 import { createClient } from '@sanity/client';
+import imageUrlBuilder from '@sanity/image-url';
 
 export async function getStaticPaths() {
   try {
     const client = createClient({
       projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
       dataset: import.meta.env.PUBLIC_SANITY_DATASET ?? 'production',
-      apiVersion: '2024-01-01',
+      apiVersion: '2026-03-21',
       useCdn: false,
     });
     const posts = await client.fetch(`
       *[_type == "marginalia" && defined(slug.current)] {
-        title, publishedAt, excerpt, body,
+        title, publishedAt, excerpt, body, headerImage,
         "slug": slug.current,
         "category": category->title
       }
@@ -28,7 +29,23 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const bodyHTML = post.body ? toHTML(post.body) : '';
+const bodyHTML = post.body
+  ? typeof post.body === 'string'
+    ? await marked(post.body)
+    : ''
+  : '';
+
+let headerImageUrl: string | null = null;
+if (post.headerImage?.asset) {
+  const client = createClient({
+    projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
+    dataset: import.meta.env.PUBLIC_SANITY_DATASET ?? 'production',
+    apiVersion: '2024-01-01',
+    useCdn: true,
+  });
+  const builder = imageUrlBuilder(client);
+  headerImageUrl = builder.image(post.headerImage).width(1600).fit('max').url();
+}
 
 function formatDate(str: string) {
   return new Date(str).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -37,7 +54,7 @@ function formatDate(str: string) {
 
 <Layout title={`${post.title} — Sarah Pemberton Greenway`} description={post.excerpt}>
   <article class="post-page">
-    <header class="page-hero">
+    <header class="page-hero" style={headerImageUrl ? `--custom-header-image: url('${headerImageUrl}')` : ''}>
       <div class="container">
         {post.category && <span class="section-label">{post.category}</span>}
         <h1>{post.title}</h1>
@@ -49,7 +66,7 @@ function formatDate(str: string) {
       </div>
     </header>
 
-    <div class="post-body container">
+    <div class="post-body" id="blogcont">
       <div class="prose" set:html={bodyHTML} />
       <div class="post-footer">
         <a href="/marginalia" class="back-link">← Back to Marginalia</a>
@@ -59,13 +76,21 @@ function formatDate(str: string) {
 </Layout>
 
 <style>
+  .page-hero[style] ::before {
+    background-image: var(--custom-header-image) !important;
+  }
+
   .post-meta { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-top: 1rem; }
   .sep { margin: 0 0.5rem; }
 
   .post-body {
-    max-width: 720px;
-    padding-top: clamp(3rem, 6vw, 5rem);
-    padding-bottom: clamp(3rem, 6vw, 5rem);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: clamp(2rem, 4vw, 3rem) 2rem;
+  }
+
+  .prose {
+    max-width: 860px;
   }
 
   .prose { font-size: 1.1rem; line-height: 1.9; color: var(--text); }

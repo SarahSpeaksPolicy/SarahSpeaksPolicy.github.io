@@ -141,6 +141,12 @@ export const marginalia = {
       to: [{ type: 'category' }],
     },
     {
+      name: 'headerImage',
+      title: 'Header Image (overrides default)',
+      type: 'image',
+      options: { hotspot: true },
+    },
+    {
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
@@ -149,32 +155,7 @@ export const marginalia = {
     {
       name: 'body',
       title: 'Body',
-      type: 'array',
-      of: [
-        {
-          type: 'block',
-          styles: [
-            { title: 'Normal', value: 'normal' },
-            { title: 'Heading 2', value: 'h2' },
-            { title: 'Heading 3', value: 'h3' },
-            { title: 'Quote', value: 'blockquote' },
-          ],
-          marks: {
-            decorators: [
-              { title: 'Bold', value: 'strong' },
-              { title: 'Italic', value: 'em' },
-            ],
-            annotations: [
-              {
-                name: 'link',
-                type: 'object',
-                title: 'Link',
-                fields: [{ name: 'href', type: 'url', title: 'URL' }],
-              },
-            ],
-          },
-        },
-      ],
+      type: 'markdown',
     },
   ],
   preview: { select: { title: 'title', subtitle: 'publishedAt' } },

@@ -1,6 +1,7 @@
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
+import { markdownSchema } from 'sanity-plugin-markdown';
 
 import { hero } from './schemas/hero';
 import { about, category, policyWork, marginalia } from './schemas/index';
@@ -13,6 +14,7 @@ export default defineConfig({
   dataset: 'production',
 
   plugins: [
+    markdownSchema(),
     structureTool({
       structure: (S) =>
         S.list()
