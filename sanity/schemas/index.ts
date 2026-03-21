@@ -31,38 +31,10 @@ export const about = {
       options: { hotspot: true },
     },
     {
-      name: 'speakingEngagements',
-      title: 'Speaking Engagements',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'title', title: 'Talk Title', type: 'string' },
-            { name: 'event', title: 'Event / Venue', type: 'string' },
-            { name: 'date', title: 'Date', type: 'string' },
-            { name: 'location', title: 'Location', type: 'string' },
-          ],
-          preview: { select: { title: 'title', subtitle: 'event' } },
-        },
-      ],
-    },
-    {
-      name: 'publications',
-      title: 'Publications',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'title', title: 'Title', type: 'string' },
-            { name: 'publisher', title: 'Publisher / Outlet', type: 'string' },
-            { name: 'date', title: 'Date', type: 'string' },
-            { name: 'url', title: 'URL', type: 'url' },
-          ],
-          preview: { select: { title: 'title', subtitle: 'publisher' } },
-        },
-      ],
+      name: 'resume',
+      title: 'Resume (PDF)',
+      type: 'file',
+      options: { accept: '.pdf' },
     },
     {
       name: 'education',
@@ -82,20 +54,6 @@ export const about = {
     },
   ],
   preview: { prepare: () => ({ title: 'About Sarah' }) },
-};
-
-// focusArea.ts
-export const focusArea = {
-  name: 'focusArea',
-  title: 'Focus Area',
-  type: 'document',
-  fields: [
-    { name: 'title', title: 'Title', type: 'string' },
-    { name: 'description', title: 'Description', type: 'text', rows: 3 },
-    { name: 'order', title: 'Display Order', type: 'number', initialValue: 1 },
-  ],
-  orderings: [{ title: 'Order', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
-  preview: { select: { title: 'title', subtitle: 'description' } },
 };
 
 // category.ts

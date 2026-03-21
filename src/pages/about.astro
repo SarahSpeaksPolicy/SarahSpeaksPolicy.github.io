@@ -5,16 +5,15 @@ import { toHTML } from '@portabletext/to-html';
 
 let about: any = null;
 try {
-  about = await sanityClient.fetch(`*[_type == "about"][0]`);
+  about = await sanityClient.fetch(`*[_type == "about"][0]{ ..., "resume": resume{ "asset": asset-> } }`);
 } catch (e) {}
 
 const fullBioHTML = about?.fullBio ? toHTML(about.fullBio) : '';
-const speaking = about?.speakingEngagements ?? [];
-const publications = about?.publications ?? [];
 const education = about?.education ?? [];
+const resumeUrl = about?.resume?.asset?.url ?? null;
 ---
 
-<Layout title="About — Sarah Pemberton Greenway" description="Biography, speaking engagements, publications, and education.">
+<Layout title="About — Sarah Pemberton Greenway" description="Biography and education.">
 
   <div class="page-hero">
     <div class="container">
@@ -38,46 +37,13 @@ const education = about?.education ?? [];
       }
     </section>
 
-    <!-- SPEAKING -->
-    <section class="about-section">
-      <h2 class="section-heading">Speaking Engagements</h2>
-      {speaking.length > 0
-        ? <ul class="entry-list">
-            {speaking.map((s: any) => (
-              <li class="entry">
-                <div class="entry-main">
-                  <strong>{s.title}</strong>
-                  <span class="entry-sub">{s.event}{s.location ? ` — ${s.location}` : ''}</span>
-                </div>
-                {s.date && <span class="entry-date">{s.date}</span>}
-              </li>
-            ))}
-          </ul>
-        : <p class="empty-state">Speaking engagements will appear here once added in the CMS.</p>
-      }
-    </section>
-
-    <!-- PUBLICATIONS -->
-    <section class="about-section">
-      <h2 class="section-heading">Publications</h2>
-      {publications.length > 0
-        ? <ul class="entry-list">
-            {publications.map((p: any) => (
-              <li class="entry">
-                <div class="entry-main">
-                  {p.url
-                    ? <a href={p.url} target="_blank" rel="noopener" class="entry-link"><strong>{p.title}</strong></a>
-                    : <strong>{p.title}</strong>
-                  }
-                  <span class="entry-sub">{p.publisher}</span>
-                </div>
-                {p.date && <span class="entry-date">{p.date}</span>}
-              </li>
-            ))}
-          </ul>
-        : <p class="empty-state">Publications will appear here once added in the CMS.</p>
-      }
-    </section>
+    <!-- RESUME -->
+    {resumeUrl && (
+      <section class="about-section resume-section">
+        <h2 class="section-heading">Resume</h2>
+        <a href={resumeUrl} download class="download-btn">Download Resume (PDF)</a>
+      </section>
+    )}
 
     <!-- EDUCATION -->
     <section class="about-section">
@@ -166,8 +132,18 @@ const education = about?.education ?? [];
     white-space: nowrap;
     flex-shrink: 0;
   }
-  .entry-link strong { color: var(--gold); transition: color 0.2s; }
-  .entry-link:hover strong { color: var(--navy); }
+
+  .download-btn {
+    display: inline-block;
+    background: var(--navy);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.75rem 1.75rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .download-btn:hover { background: var(--navy-mid); }
 
   .empty-state {
     font-size: 0.95rem;

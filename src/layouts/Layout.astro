@@ -69,6 +69,7 @@ const currentPath = Astro.url.pathname;
       </div>
       <div class="footer-bottom">
         <p>&copy; {new Date().getFullYear()} Sarah Pemberton Greenway. All rights reserved.</p>
+        <a href="https://sarahspeakspolicy.sanity.studio" target="_blank" rel="noopener" class="edit-link">Edit</a>
       </div>
     </footer>
 
@@ -85,15 +86,16 @@ const currentPath = Astro.url.pathname;
 
 <style is:global>
   :root {
-    --navy: #0f1f3d;
-    --navy-mid: #1a3260;
-    --gold: #c8922a;
-    --gold-light: #e8b455;
-    --cream: #f9f5ee;
-    --warm-white: #fdfaf5;
-    --text: #1c1c1e;
-    --text-muted: #5a5a6e;
-    --border: #e2ddd4;
+    --navy: #393B37;
+    --navy-mid: #4e5149;
+    --gold: #15661C;
+    --gold-light: #BFA688;
+    --cream: #F2E9D5;
+    --warm-white: #F2E9D5;
+    --accent: #97A4C7;
+    --text: #393B37;
+    --text-muted: #5c5e5a;
+    --border: #ddd5c2;
 
     --font-display: 'Playfair Display', Georgia, serif;
     --font-body: 'DM Sans', system-ui, sans-serif;
@@ -108,7 +110,7 @@ const currentPath = Astro.url.pathname;
 
   body {
     font-family: var(--font-body);
-    background: var(--warm-white);
+    background: var(--cream);
     color: var(--text);
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
@@ -122,9 +124,9 @@ const currentPath = Astro.url.pathname;
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(253, 250, 245, 0.94);
+    background: rgba(242, 233, 213, 0.94);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--gold);
   }
 
   .nav-inner {
@@ -241,11 +243,20 @@ const currentPath = Astro.url.pathname;
 
   .footer-bottom {
     border-top: 1px solid rgba(255,255,255,0.1);
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 1.25rem 2rem;
     font-size: 0.8rem;
-    color: rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.7);
   }
+
+  .edit-link {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+    transition: color 0.2s;
+  }
+  .edit-link:hover { color: rgba(255,255,255,0.8); }
 
   /* ── SHARED PAGE STYLES ── */
   .container { max-width: var(--max-width); margin: 0 auto; padding: 0 2rem; }
@@ -261,18 +272,11 @@ const currentPath = Astro.url.pathname;
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url('/2549623113_ab0b883fb5_o.jpg');
+    background-image: url('/8333588244_b7988ab1f6_c.jpg');
     background-size: cover;
     background-position: center;
     filter: grayscale(80%) blur(5px);
     transform: scale(1.05);
-    z-index: 0;
-  }
-  .page-hero::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(10, 20, 45, 0.6);
     z-index: 0;
   }
   .page-hero > * {
