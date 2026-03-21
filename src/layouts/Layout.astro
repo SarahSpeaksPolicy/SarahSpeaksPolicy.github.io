@@ -282,7 +282,7 @@ const currentPath = Astro.url.pathname;
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url('/8333588244_b7988ab1f6_c.jpg');
+    background-image: var(--custom-header-image, url('/8333588244_b7988ab1f6_c.jpg'));
     background-size: cover;
     background-position: center;
     filter: grayscale(80%) blur(5px);
