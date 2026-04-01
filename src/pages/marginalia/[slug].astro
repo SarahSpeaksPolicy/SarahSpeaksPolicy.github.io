@@ -67,17 +67,60 @@ function formatDate(str: string) {
     </header>
 
     <div class="post-body" id="blogcont">
+      <h1 class="scrolledTitle">{post.title}</h1>
       <div class="prose" set:html={bodyHTML} />
       <div class="post-footer">
         <a href="/marginalia" class="back-link">← Back to Marginalia</a>
       </div>
     </div>
   </article>
+
+  <script>
+    const hero = document.querySelector('.post-page .page-hero');
+    const scrolledTitle = document.querySelector('.post-page .scrolledTitle');
+    const stickyHeader = document.querySelector('.site-header');
+
+    if (hero && scrolledTitle) {
+      let ticking = false;
+
+      const updateHeroAndTitle = () => {
+        const headerHeight = stickyHeader?.getBoundingClientRect().height ?? 68;
+        const fadeDistance = Math.max(hero.offsetHeight - headerHeight, 200);
+        const progress = Math.min(window.scrollY / fadeDistance, 1);
+
+        hero.style.opacity = String(1 - progress);
+        hero.style.transform = `translateY(${progress * -24}px)`;
+
+        if (progress > 0.78) {
+          scrolledTitle.classList.add('is-visible');
+        } else {
+          scrolledTitle.classList.remove('is-visible');
+        }
+
+        ticking = false;
+      };
+
+      const onScroll = () => {
+        if (!ticking) {
+          window.requestAnimationFrame(updateHeroAndTitle);
+          ticking = true;
+        }
+      };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      updateHeroAndTitle();
+    }
+  </script>
 </Layout>
 
 <style>
   .post-meta { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-top: 1rem; }
   .sep { margin: 0 0.5rem; }
+
+  .post-page .page-hero {
+    transition: opacity 0.12s linear;
+    will-change: opacity, transform;
+  }
 
   .post-body {
     max-width: var(--max-width);
@@ -85,8 +128,55 @@ function formatDate(str: string) {
     padding: clamp(2rem, 4vw, 3rem) 2rem;
   }
 
+  .scrolledTitle {
+    position: fixed;
+    top: 68px;
+    left: 0;
+    width: 100%;
+    z-index: 95;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    margin-bottom: 0;
+    background: var(--cream);
+    padding-block: 0.65rem;
+    padding-inline: max(2rem, calc((100vw - var(--max-width)) / 2 + 2rem));
+    border-bottom: 2px solid #111111;
+    color: #111111;
+    font-family: var(--font-display);
+    font-size: clamp(1.55rem, 3vw, 2.15rem);
+    line-height: 1.2;
+    pointer-events: none;
+  }
+
+  .scrolledTitle.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
   .prose {
     max-width: 860px;
+  }
+
+  @media (max-width: 720px) {
+    .scrolledTitle {
+      padding-block: 0.55rem;
+      border-bottom-width: 4px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .scrolledTitle {
+      padding-inline: max(1.25rem, calc((100vw - var(--max-width)) / 2 + 1.25rem));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .post-page .page-hero,
+    .scrolledTitle {
+      transition: none;
+    }
   }
 
   .prose { font-size: 1.1rem; line-height: 1.9; color: var(--text); }
