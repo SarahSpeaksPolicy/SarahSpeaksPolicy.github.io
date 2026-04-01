@@ -59,3 +59,33 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Notify n8n webhook
+        if: always()
+        run: |
+          COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
+          if [ -z "$COMMIT_MESSAGE" ]; then
+            COMMIT_MESSAGE="${{ github.sha }}"
+          fi
+
+          export COMMIT_MESSAGE
+          export COMMIT_SHA="${{ github.sha }}"
+
+          python3 - <<'PY' > payload.json
+          import json
+          import os
+
+          payload = {
+              "message": os.getenv("COMMIT_MESSAGE", ""),
+              "author": "n8n",
+              "title": "Sarah published new content on the website!",
+              "url": "https://sarahspeakspolicy.com/",
+              "commitId": os.getenv("COMMIT_SHA", "")
+          }
+
+          print(json.dumps(payload))
+          PY
+
+          curl -X POST "https://n8n.mkg-hz.com/webhook/452869ea-bbb1-4f8f-b0c5-dc4f5c4c812c" \
+            -H "Content-Type: application/json" \
+            --data @payload.json
