@@ -104,6 +104,9 @@ const currentPath = Astro.url.pathname;
 
     --max-width: 1160px;
     --section-pad: clamp(5rem, 10vw, 9rem);
+
+
+
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -278,16 +281,19 @@ const currentPath = Astro.url.pathname;
     position: relative;
     overflow: hidden;
     color: white;
-    padding: clamp(4rem, 10vw, 8rem) 0 clamp(3rem, 7vw, 6rem);
+    padding: clamp(1.75rem, 4.5vw, 3.25rem) 0 clamp(1.25rem, 3.5vw, 2.5rem);
   }
   .page-hero::before {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: var(--custom-header-image, url('/8333588244_b7988ab1f6_c.jpg'));
-    background-size: cover;
-    background-position: center;
-    filter: grayscale(80%) blur(5px);
+
+    background: radial-gradient(circle at left bottom ,transparent 14%,#3F3F3F 15%, #3F3F3F 25%, transparent 26%, transparent 34%,#3F3F3F80 35%, #3F3F3F80 45%, transparent 46%, transparent 54%, #3F3F3F 55%, #3F3F3F 65%, transparent 66%, transparent 74%, #3F3F3F80 75%, #3F3F3F80 85%, transparent 86%);
+    background-size: 4em 4em;
+    background-color: #b3b3b3;
+    opacity: 0.85;
+    
+    filter: grayscale(80%) blur(10px) brightness(0.4);
     transform: scale(1.05);
     z-index: 0;
   }
@@ -300,7 +306,7 @@ const currentPath = Astro.url.pathname;
   .page-hero h1 {
     font-family: var(--font-display);
     font-size: clamp(2.2rem, 5vw, 3.5rem);
-    font-weight: 900;
+    font-weight: 400;
     color: white;
     margin-bottom: 1rem;
     letter-spacing: -0.02em;
