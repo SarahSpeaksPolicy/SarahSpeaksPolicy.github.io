@@ -1,0 +1,392 @@
+/* ============================================================
+   Sarah Speaks Policy — Component Styles
+   Page-specific layouts and one-off components.
+   ============================================================ */
+
+/* ============================================================
+   Homepage — portrait + line of thought two-column hero
+   ============================================================ */
+.home-hero {
+  padding: 5.5rem var(--pad-x) 3rem;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 4.5rem;
+  align-items: center;
+  max-width: var(--max-container);
+  margin: 0 auto;
+}
+
+.home-portrait {
+  aspect-ratio: 4/5;
+  background: #5C3E1F; /* placeholder — replace with real image */
+  background-size: cover;
+  background-position: center;
+}
+
+.home-line {
+  font-family: var(--font-headline);
+  font-size: 32px;
+  line-height: 1.3;
+  font-weight: 400;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.home-line + .monogram { margin-top: 2rem; }
+
+@media (max-width: 700px) {
+  .home-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 3rem var(--pad-x) 2rem;
+  }
+  .home-portrait { max-width: 200px; margin: 0 auto; }
+  .home-line { font-size: 26px; text-align: center; }
+  .home-line + .monogram { justify-content: center; }
+}
+
+/* ============================================================
+   About page — biography prose + credentials ledger
+   ============================================================ */
+.bio-prose {
+  font-family: var(--font-headline);
+  max-width: var(--max-narrow);
+  margin: 0 auto;
+  padding: 3rem var(--pad-x);
+}
+
+.bio-prose p {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--color-ink);
+  margin: 0 0 1.5rem;
+}
+
+.bio-prose p.placeholder {
+  color: var(--color-ink-placeholder);
+  font-style: italic;
+}
+
+.credentials {
+  max-width: var(--max-narrow);
+  margin: 0 auto;
+  padding: 0 var(--pad-x) 1rem;
+}
+
+.credentials-block {
+  border-top: 0.5px solid var(--color-rule-strong);
+  padding-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.credential-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.9rem 0;
+  border-bottom: 0.5px solid var(--color-rule-whisper);
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+
+.credential-row:last-child { border-bottom: none; }
+
+.credential-row .detail {
+  font-style: italic;
+  color: var(--color-ink-muted);
+}
+
+/* ============================================================
+   Marginalia index — dated entries
+   ============================================================ */
+.marginalia-list {
+  border-top: 0.5px solid var(--color-rule-strong);
+}
+
+.marginalia-entry {
+  display: grid;
+  grid-template-columns: 60px 1fr 20px;
+  gap: 1.5rem;
+  align-items: baseline;
+  padding: 1.5rem 0 1.25rem;
+  border-bottom: 0.5px solid var(--color-rule);
+  cursor: pointer;
+  transition: padding-left 0.2s ease;
+}
+
+.marginalia-entry:hover { padding-left: 0.25rem; }
+
+.marginalia-entry .date {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  line-height: 1.4;
+}
+
+.marginalia-entry .title {
+  font-family: var(--font-headline);
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--color-ink);
+  line-height: 1.35;
+  margin-bottom: 0.4rem;
+}
+
+.marginalia-entry .description {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-ink-muted);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.marginalia-entry .arrow {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--color-accent);
+  text-align: right;
+}
+
+.load-more {
+  text-align: center;
+  padding: 3rem 0 0;
+}
+
+.load-more a {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* ============================================================
+   Policy and Work — portfolio pieces (more gravitas than marginalia)
+   ============================================================ */
+.portfolio-list {
+  border-top: 0.5px solid var(--color-rule-strong);
+}
+
+.portfolio-piece {
+  padding: 2rem 0 1.75rem;
+  border-bottom: 0.5px solid var(--color-rule);
+  cursor: pointer;
+  transition: padding-left 0.2s ease;
+}
+
+.portfolio-piece:hover { padding-left: 0.25rem; }
+
+.portfolio-piece .meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+}
+
+.portfolio-piece .meta {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.portfolio-piece .arrow {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--color-accent);
+}
+
+.portfolio-piece .title {
+  font-family: var(--font-headline);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--color-ink);
+  line-height: 1.3;
+  margin: 0 0 0.5rem;
+}
+
+.portfolio-piece .description {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--color-ink-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ============================================================
+   Contact — email prominence + elsewhere list
+   ============================================================ */
+.contact-email {
+  text-align: center;
+  padding: 2rem 0 3rem;
+}
+
+.contact-email .label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  margin-bottom: 0.75rem;
+}
+
+.contact-email .address {
+  font-family: var(--font-headline);
+  font-size: 20px;
+  color: var(--color-accent);
+  letter-spacing: 0.01em;
+}
+
+.elsewhere {
+  border-top: 0.5px solid var(--color-rule-strong);
+  padding-top: 1.5rem;
+}
+
+.elsewhere .group-label {
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  margin-bottom: 1.5rem;
+}
+
+.elsewhere-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.3rem 0;
+  border-bottom: 0.5px solid var(--color-rule-soft);
+  cursor: pointer;
+  transition: padding-left 0.2s ease;
+}
+
+.elsewhere-link:hover { padding-left: 0.25rem; }
+
+.elsewhere-link .name {
+  font-family: var(--font-headline);
+  font-size: 17px;
+  color: var(--color-ink);
+  margin-bottom: 0.2rem;
+}
+
+.elsewhere-link .context {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--color-ink-soft);
+}
+
+.elsewhere-link .arrow {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--color-accent);
+}
+
+/* ============================================================
+   Marginalia post template — individual essay
+   ============================================================ */
+.back-link {
+  max-width: var(--max-medium);
+  margin: 0 auto;
+  padding: 4rem var(--pad-x) 2rem;
+}
+
+.back-link a {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.post-header {
+  max-width: var(--max-wide);
+  margin: 0 auto;
+  padding: 3rem var(--pad-x) 2rem;
+  text-align: center;
+}
+
+.post-date {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  margin-bottom: 1.5rem;
+}
+
+.post-title {
+  font-family: var(--font-headline);
+  font-size: 38px;
+  line-height: 1.25;
+  font-weight: 400;
+  color: var(--color-ink);
+  letter-spacing: -0.015em;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.post-standfirst {
+  max-width: 440px;
+  margin: 1.5rem auto 0;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-ink-muted);
+}
+
+.asterism {
+  text-align: center;
+  margin: 2rem auto 3rem;
+  font-family: var(--font-body);
+  color: var(--color-ink-soft);
+  letter-spacing: 0.5em;
+  font-size: 16px;
+}
+
+.post-body {
+  max-width: var(--max-medium);
+  margin: 0 auto;
+  padding: 2rem var(--pad-x) 4rem;
+  font-family: var(--font-headline);
+}
+
+.post-body p {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--color-ink);
+  margin: 0 0 1.5rem;
+}
+
+.post-body p.placeholder {
+  color: var(--color-ink-placeholder);
+  font-style: italic;
+}
+
+.previously {
+  max-width: var(--max-medium);
+  margin: 0 auto;
+  padding: 2rem var(--pad-x) 4rem;
+}
+
+.previously .block {
+  border-top: 0.5px solid var(--color-rule-strong);
+  padding-top: 2rem;
+}
+
+.previously .label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  margin-bottom: 1.25rem;
+  text-align: center;
+}

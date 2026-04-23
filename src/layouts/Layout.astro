@@ -17,12 +17,13 @@ const currentPath = Astro.url.pathname;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <title>{title} | SarahSpeaksPolicy</title>
+    <title>{title} | Sarah Speaks Policy</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
   </head>
   <body>
     <header class="site-header">
@@ -31,8 +32,8 @@ const currentPath = Astro.url.pathname;
           Sarah<span>Speaks</span>Policy
         </a>
         <ul class="nav-links">
-          <li><a href="/about" class={currentPath.startsWith('/about') ? 'active' : ''}>About</a></li>
-          <li><a href="/work" class={currentPath.startsWith('/work') ? 'active' : ''}>Policy & Work</a></li>
+          <li><a href="/on-background" class={currentPath.startsWith('/on-background') ? 'active' : ''}>On Background</a></li>
+          <li><a href="/policy-and-work" class={currentPath.startsWith('/policy-and-work') ? 'active' : ''}>Policy & Work</a></li>
           <li><a href="/marginalia" class={currentPath.startsWith('/marginalia') ? 'active' : ''}>Marginalia</a></li>
           <li><a href="/contact" class={currentPath.startsWith('/contact') ? 'active' : ''}>Contact</a></li>
         </ul>
@@ -41,8 +42,8 @@ const currentPath = Astro.url.pathname;
         </button>
       </nav>
       <div class="mobile-menu" id="mobileMenu">
-        <a href="/about">About</a>
-        <a href="/work">Policy & Work</a>
+        <a href="/on-background">About</a>
+        <a href="/policy-and-work">Policy & Work</a>
         <a href="/marginalia">Marginalia</a>
         <a href="/contact">Contact</a>
       </div>
@@ -52,23 +53,11 @@ const currentPath = Astro.url.pathname;
       <slot />
     </main>
 
+
     <footer class="site-footer">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <span class="wordmark">Sarah<span>Speaks</span>Policy</span>
-          <p>Driving equitable economic change through principled policy leadership.</p>
-        </div>
-        <div class="footer-links">
-          <a href="/about">About</a>
-          <a href="/work">Policy & Work</a>
-          <a href="/marginalia">Marginalia</a>
-          <a href="/contact">Contact</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Sarah Pemberton Greenway.<br class="mobile-break" /> All rights reserved.</p>
-        <a href="https://sarahspeakspolicy.sanity.studio" target="_blank" rel="noopener" class="edit-link">Edit</a>
-      </div>
+      <span>&copy; {new Date().getFullYear()}</span>
+      <span class="footer-wordmark">Sarah Speaks Policy</span>
+      <span>St. Petersburg, FL</span>
     </footer>
 
     <script>
@@ -81,242 +70,3 @@ const currentPath = Astro.url.pathname;
     </script>
   </body>
 </html>
-
-<style is:global>
-  :root {
-    --navy: #393B37;
-    --navy-mid: #4e5149;
-    --gold: #15661C;
-    --gold-light: #BFA688;
-    --cream: #F2E9D5;
-    --warm-white: #F2E9D5;
-    --accent: #97A4C7;
-    --text: #393B37;
-    --text-muted: #5c5e5a;
-    --border: #ddd5c2;
-
-    --font-display: 'Cormorant Garamond', Georgia, serif;
-    --font-body: 'Source Serif 4', sans-serif;
-
-    --max-width: 1160px;
-    --section-pad: clamp(5rem, 10vw, 9rem);
-
-
-
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: var(--font-body);
-    background: var(--cream);
-    color: var(--text);
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  img { max-width: 100%; display: block; }
-  a { color: inherit; text-decoration: none; }
-
-  /* ── NAV ── */
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(242, 233, 213, 0.94);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--gold);
-  }
-
-  .nav-inner {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 2rem;
-    height: 68px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .wordmark {
-    font-family: var(--font-display);
-    font-weight: 900;
-    font-size: 1.15rem;
-    color: var(--navy);
-    letter-spacing: -0.02em;
-  }
-  .wordmark span { color: var(--gold); }
-
-  .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 2.5rem;
-    align-items: center;
-  }
-
-  .nav-links a {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-muted);
-    transition: color 0.2s;
-    letter-spacing: 0.02em;
-  }
-  .nav-links a:hover,
-  .nav-links a.active { color: var(--navy); }
-  .nav-links a.active {
-    border-bottom: 2px solid var(--gold);
-    padding-bottom: 2px;
-  }
-
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-  }
-  .hamburger span {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: var(--navy);
-    transition: 0.3s;
-  }
-
-  .mobile-menu {
-    display: none;
-    flex-direction: column;
-    background: var(--warm-white);
-    border-top: 1px solid var(--border);
-    padding: 1rem 2rem 1.5rem;
-    gap: 1rem;
-  }
-  .mobile-menu.open { display: flex; }
-  .mobile-menu a {
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--navy);
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  @media (max-width: 720px) {
-    .nav-links { display: none; }
-    .hamburger { display: flex; }
-  }
-
-  /* ── FOOTER ── */
-  .site-footer {
-    background: var(--navy);
-    color: rgba(255,255,255,0.7);
-    margin-top: var(--section-pad);
-  }
-
-  .footer-inner {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 4rem 2rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    gap: 3rem;
-    flex-wrap: wrap;
-  }
-
-  .footer-brand .wordmark { font-size: 1.1rem; display: block; margin-bottom: 0.75rem; color: var(--white); }
-  .footer-brand .wordmark span { color: var(--gold-light); }
-  .footer-brand p { font-size: 0.9rem; max-width: 280px; line-height: 1.6; }
-
-  .footer-links {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  .footer-links a {
-    font-size: 0.875rem;
-    color: rgba(255,255,255,0.6);
-    transition: color 0.2s;
-  }
-  .footer-links a:hover { color: var(--gold-light); }
-
-  .footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    padding: 1.25rem 2rem;
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.7);
-  }
-
-  .mobile-break { display: none; }
-  @media (max-width: 480px) {
-    .mobile-break { display: block; }
-  }
-
-  .edit-link {
-    font-size: 0.75rem;
-    color: rgba(255,255,255,0.4);
-    transition: color 0.2s;
-  }
-  .edit-link:hover { color: rgba(255,255,255,0.8); }
-
-  /* ── SHARED PAGE STYLES ── */
-  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 2rem !important; }
-  @media (max-width: 600px) {
-    .container { padding: 0 1.25rem !important; }
-  }
-  .section-pad { padding: var(--section-pad) 0; }
-
-  .page-hero {
-    position: relative;
-    overflow: hidden;
-    color: white;
-    padding: clamp(1.75rem, 4.5vw, 3.25rem) 0 clamp(1.25rem, 3.5vw, 2.5rem);
-  }
-  .page-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-
-    background: radial-gradient(circle at left bottom ,transparent 14%,#3F3F3F 15%, #3F3F3F 25%, transparent 26%, transparent 34%,#3F3F3F80 35%, #3F3F3F80 45%, transparent 46%, transparent 54%, #3F3F3F 55%, #3F3F3F 65%, transparent 66%, transparent 74%, #3F3F3F80 75%, #3F3F3F80 85%, transparent 86%);
-    background-size: 4em 4em;
-    background-color: #b3b3b3;
-    opacity: 0.85;
-    
-    filter: grayscale(80%) blur(10px) brightness(0.4);
-    transform: scale(1.05);
-    z-index: 0;
-  }
-  .page-hero > * {
-    position: relative;
-    z-index: 1;
-  }
-
-
-  .page-hero h1 {
-    font-family: var(--font-display);
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
-    font-weight: 400;
-    color: white;
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
-  }
-  .page-hero .section-label { color: var(--gold-light); margin-bottom: 0.75rem; }
-  .page-hero p { color: rgba(255,255,255,0.65); max-width: 560px; font-size: 1.05rem; line-height: 1.8; }
-
-  .section-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.75rem;
-    display: block;
-  }
-</style>
