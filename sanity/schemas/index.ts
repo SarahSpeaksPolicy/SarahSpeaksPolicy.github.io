@@ -14,7 +14,7 @@ export const about = {
       name: 'junk',
       title: 'Junk',
       type: 'string',
-      description: 'schema changes auto deploy - 03',
+      description: 'schema changes auto deploy - 05',
     },
     {
       name: 'fullBio',
