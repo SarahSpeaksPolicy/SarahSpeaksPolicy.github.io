@@ -20,7 +20,7 @@ jobs:
           node-version: 24
 
       - name: Install Sanity dependencies
-        run: cd sanity && npm ci
+        run: cd sanity && npm ci --legacy-peer-deps
 
       - name: Deploy Sanity Studio
         env:
