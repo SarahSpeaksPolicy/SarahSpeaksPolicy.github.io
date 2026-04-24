@@ -5,7 +5,7 @@ import imageUrlBuilder from '@sanity/image-url';
 
 let about: any = null;
 try {
-  about = await sanityClient.fetch(`*[_type == "about"][0]{
+  about = await sanityClient.fetch(`*[_type == "onBackground"][0]{
     positioningStatement, photo
   }`);
 } catch (e) {}

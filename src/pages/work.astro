@@ -6,7 +6,7 @@ let works: any[] = [];
 let categories: any[] = [];
 try {
   works = await sanityClient.fetch(`
-    *[_type == "policyWork"] | order(publishedAt desc) {
+    *[_type == "policyAndWork"] | order(publishedAt desc) {
       _id, title, description, publishedAt,
       "category": category->title,
       "fileUrl": file.asset->url,

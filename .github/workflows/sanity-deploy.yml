@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - "sanity/**"
+      - ".github/workflows/sanity-deploy.yml"
   workflow_dispatch:
 
 jobs:

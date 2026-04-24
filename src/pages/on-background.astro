@@ -5,7 +5,7 @@ import { toHTML } from '@portabletext/to-html';
 
 let about: any = null;
 try {
-  about = await sanityClient.fetch(`*[_type == "about"][0]{ ..., "resume": resume{ "asset": asset-> } }`);
+  about = await sanityClient.fetch(`*[_type == "onBackground"][0]{ ..., "resume": resume{ "asset": asset-> } }`);
 } catch (e) {}
 
 const fullBioHTML = about?.fullBio ? toHTML(about.fullBio) : '';
