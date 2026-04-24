@@ -27,26 +27,13 @@ const currentPath = Astro.url.pathname;
   </head>
   <body>
     <header class="site-header">
-      <nav class="nav-inner">
-        <a href="/" class="wordmark">
-          Sarah<span>Speaks</span>Policy
-        </a>
-        <ul class="nav-links">
-          <li><a href="/on-background" class={currentPath.startsWith('/on-background') ? 'active' : ''}>On Background</a></li>
-          <li><a href="/policy-and-work" class={currentPath.startsWith('/policy-and-work') ? 'active' : ''}>Policy & Work</a></li>
-          <li><a href="/marginalia" class={currentPath.startsWith('/marginalia') ? 'active' : ''}>Marginalia</a></li>
-          <li><a href="/contact" class={currentPath.startsWith('/contact') ? 'active' : ''}>Contact</a></li>
-        </ul>
-        <button class="hamburger" aria-label="Toggle menu" id="hamburger">
-          <span></span><span></span><span></span>
-        </button>
-      </nav>
-      <div class="mobile-menu" id="mobileMenu">
-        <a href="/on-background">About</a>
-        <a href="/policy-and-work">Policy & Work</a>
-        <a href="/marginalia">Marginalia</a>
-        <a href="/contact">Contact</a>
-      </div>
+      <a href="index.html" class="wordmark">Sarah Speaks Policy</a>
+      <nav class="site-nav">
+        <a href="/on-background" class={currentPath.startsWith('/on-background') ? 'active' : ''}>On Background</a>
+        <a href="/policy-and-work" class={currentPath.startsWith('/policy-and-work') ? 'active' : ''}>Policy & Work</a>
+        <a href="/marginalia" class={currentPath.startsWith('/marginalia') ? 'active' : ''}>Marginalia</a>
+        <a href="/contact" class={currentPath.startsWith('/contact') ? 'active' : ''}>Contact</a>
+      </nav>     
     </header>
 
     <main>
@@ -60,13 +47,5 @@ const currentPath = Astro.url.pathname;
       <span>St. Petersburg, FL</span>
     </footer>
 
-    <script>
-      const hamburger = document.getElementById('hamburger');
-      const mobileMenu = document.getElementById('mobileMenu');
-      hamburger?.addEventListener('click', () => {
-        mobileMenu?.classList.toggle('open');
-        hamburger.classList.toggle('active');
-      });
-    </script>
   </body>
 </html>
