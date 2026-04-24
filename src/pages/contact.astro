@@ -1,70 +1,57 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { sanityClient } from '../lib/sanity';
+
+let data: any = null;
+try {
+  data = await sanityClient.fetch(`*[_type == "contact"][0]`);
+} catch (e) {}
+
+const email = data?.email ?? null;
+const pageTagline = data?.pageTagline ?? '[Page tagline — written later.]';
+const pageSubhead = data?.pageSubhead ?? '[A line about how to reach you — written later.]';
+const socialLinks = data?.socialLinks ?? [];
 ---
 
-<Layout title="Contact — Sarah Pemberton Greenway" description="Get in touch with Sarah Pemberton Greenway.">
+<Layout title="Contact — Sarah Speaks Policy" description="Get in touch with Sarah Pemberton Greenway.">
 
-  <div class="page-hero">
-    <div class="container">
-      <span class="section-label">Contact</span>
-      <h1>Get in Touch</h1>
-      <p>For speaking engagements, press inquiries, or policy collaboration.<br />&nbsp;</p>
-    </div>
+  <div class="page-title">
+    <div class="page-label">Contact</div>
+    <h1 class="page-heading">{pageTagline}</h1>
+    <div class="page-subhead">{pageSubhead}</div>
   </div>
 
-  <div class="contact-body container section-pad">
-    <div class="contact-grid">
-      <div class="contact-item">
-        <h2>Email</h2>
-        <p><a href="mailto:sarah@sarahspeakspolicy.com">sarah@sarahspeakspolicy.com</a></p>
+  <section style="max-width: 480px; margin: 0 auto; padding: 2rem var(--pad-x) 3rem;">
+
+    {email && (
+      <div class="contact-email">
+        <div class="label">By email</div>
+        <a href={`mailto:${email}`} class="address">{email}</a>
       </div>
-      <div class="contact-item">
-        <h2>Speaking Inquiries</h2>
-        <p>For keynotes, panels, and event appearances, please reach out via email with details about your event and timeline.</p>
+    )}
+
+    {socialLinks.length > 0 && (
+      <div class="elsewhere">
+        <div class="group-label">Elsewhere</div>
+        {socialLinks.map((link: any) => (
+          <a href={link.url} class="elsewhere-link" target="_blank" rel="noopener">
+            <div>
+              <div class="name">{link.name}</div>
+              {link.context && <div class="context">{link.context}</div>}
+            </div>
+            <div class="arrow">&#8594;</div>
+          </a>
+        ))}
       </div>
-      <div class="contact-item">
-        <h2>Press</h2>
-        <p>Members of the press may contact Sarah directly at the email above. Please include your publication and deadline in your message.</p>
-      </div>
-      <div class="contact-item">
-        <h2>Location</h2>
-        <p>Based in [City, State]</p>
-      </div>
-    </div>
+    )}
+
+  </section>
+
+  <div class="monogram monogram--signature">
+    <svg viewBox="0 0 40 28" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 8 14 Q 14 6, 20 14 T 32 14" stroke="#2A1810" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+      <text x="20" y="22" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="10" fill="#2A1810" opacity="0.7">spg</text>
+    </svg>
   </div>
 
 </Layout>
-
-<style>
-  .contact-body { max-width: 760px; }
-
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-  }
-
-  .contact-item h2 {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 0.6rem;
-  }
-
-  .contact-item p {
-    font-size: 0.97rem;
-    color: var(--text-muted);
-    line-height: 1.75;
-  }
-
-  .contact-item a {
-    color: var(--gold);
-    transition: color 0.2s;
-  }
-  .contact-item a:hover { color: var(--navy); }
-
-  @media (max-width: 600px) {
-    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
-  }
-</style>

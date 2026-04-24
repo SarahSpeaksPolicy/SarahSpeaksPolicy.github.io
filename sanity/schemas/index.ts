@@ -12,10 +12,9 @@ export const about = {
     },
     {
       name: 'fullBio',
-      title: 'Full Biography (About Page)',
+      title: 'Full Biography',
       type: 'array',
       of: [{ type: 'block' }],
-      description: 'Longer biography for the About page',
     },
     {
       name: 'photo',
@@ -37,11 +36,25 @@ export const about = {
         {
           type: 'object',
           fields: [
-            { name: 'degree', title: 'Degree', type: 'string' },
             { name: 'institution', title: 'Institution', type: 'string' },
-            { name: 'year', title: 'Year', type: 'string' },
+            { name: 'degree', title: 'Degree', type: 'string' },
           ],
-          preview: { select: { title: 'degree', subtitle: 'institution' } },
+          preview: { select: { title: 'institution', subtitle: 'degree' } },
+        },
+      ],
+    },
+    {
+      name: 'experience',
+      title: 'Selected Experience',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'organization', title: 'Organization', type: 'string' },
+            { name: 'role', title: 'Role / Duration', type: 'string' },
+          ],
+          preview: { select: { title: 'organization', subtitle: 'role' } },
         },
       ],
     },
@@ -101,6 +114,48 @@ export const policyWork = {
     },
   ],
   preview: { select: { title: 'title', subtitle: 'description' } },
+};
+
+// contact.ts
+export const contact = {
+  name: 'contact',
+  title: 'Contact',
+  type: 'document',
+  fields: [
+    {
+      name: 'pageTagline',
+      title: 'Page Tagline',
+      type: 'string',
+    },
+    {
+      name: 'pageSubhead',
+      title: 'Page Subhead',
+      type: 'text',
+      rows: 2,
+    },
+    {
+      name: 'email',
+      title: 'Email Address',
+      type: 'string',
+    },
+    {
+      name: 'socialLinks',
+      title: 'Social Links',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'name', title: 'Name', type: 'string' },
+            { name: 'url', title: 'URL', type: 'url' },
+            { name: 'context', title: 'Context', type: 'string' },
+          ],
+          preview: { select: { title: 'name', subtitle: 'context' } },
+        },
+      ],
+    },
+  ],
+  preview: { prepare: () => ({ title: 'Contact' }) },
 };
 
 // marginalia.ts

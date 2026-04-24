@@ -8,150 +8,84 @@ try {
   about = await sanityClient.fetch(`*[_type == "onBackground"][0]{ ..., "resume": resume{ "asset": asset-> } }`);
 } catch (e) {}
 
-const fullBioHTML = about?.fullBio ? toHTML(about.fullBio) : '';
+const fullBioHTML = about?.fullBio ? toHTML(about.fullBio) : null;
 const education = about?.education ?? [];
+const experience = about?.experience ?? [];
 const resumeUrl = about?.resume?.asset?.url ?? null;
 ---
 
-<Layout title="About — Sarah Pemberton Greenway" description="Biography and education.">
+<Layout title="On Background — Sarah Speaks Policy" description="Biography, education, and experience of Sarah Pemberton Greenway.">
 
-  <div class="page-hero">
-    <div class="container">
-      <span class="section-label">About</span>
-      <h1>Sarah Pemberton Greenway</h1>
-      <p>Policy strategist, advocate, and writer working at the intersection of economic equity and community development.</p>
-    </div>
+  <div class="page-title">
+    <div class="page-label">On Background</div>
+    <h1 class="page-heading page-heading--display">Sarah Pemberton Greenway</h1>
+    <div class="page-subtitle">Policy strategist</div>
   </div>
 
-  <div class="about-body container section-pad">
+  <div class="bio-prose">
+    {fullBioHTML
+      ? <Fragment set:html={fullBioHTML} />
+      : <>
+          <p class="placeholder">[A paragraph of biography will live here — three to four sentences that place you in the world of policy work, your current focus, and what you care about.]</p>
+          <p class="placeholder">[A second paragraph, more personal — your trajectory, the through-line that connects what you've done to what you're doing now.]</p>
+          <p class="placeholder">[A closing paragraph — what you're working on now, what you're writing about, and where you're based.]</p>
+        </>
+    }
+  </div>
 
-    <!-- BIO -->
-    <section class="about-section">
-      <h2 class="section-heading">Biography</h2>
-      {fullBioHTML
-        ? <div class="prose" set:html={fullBioHTML} />
-        : <div class="prose">
-            <p>Sarah Pemberton Greenway has spent over a decade at the intersection of policy, community, and economic justice. From municipal budget advocacy to statewide development initiatives, she brings both analytical depth and a genuine commitment to the people policies are meant to serve.</p>
-            <p>Her work centers a simple belief: economic opportunity shouldn't depend on your zip code. She has advised city councils, nonprofit coalitions, and legislative offices — always asking who gets left out of the room, and how to change that.</p>
+  {education.length > 0 && (
+    <div class="credentials">
+      <div class="credentials-block">
+        <div class="section-label">Education</div>
+        {education.map((e: any) => (
+          <div class="credential-row">
+            <span>{e.institution}</span>
+            <span class="detail">{e.degree}</span>
           </div>
-      }
-    </section>
+        ))}
+      </div>
+    </div>
+  )}
 
-    <!-- RESUME -->
-    {resumeUrl && (
-      <section class="about-section resume-section">
-        <h2 class="section-heading">Resume</h2>
-        <a href={resumeUrl} download class="download-btn">Download Resume (PDF)</a>
-      </section>
-    )}
+  {experience.length > 0 && (
+    <div class="credentials">
+      <div class="credentials-block">
+        <div class="section-label">Selected experience</div>
+        {experience.map((e: any) => (
+          <div class="credential-row">
+            <span>{e.organization}</span>
+            <span class="detail">{e.role}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
 
-    <!-- EDUCATION -->
-    <section class="about-section">
-      <h2 class="section-heading">Education</h2>
-      {education.length > 0
-        ? <ul class="entry-list">
-            {education.map((e: any) => (
-              <li class="entry">
-                <div class="entry-main">
-                  <strong>{e.degree}</strong>
-                  <span class="entry-sub">{e.institution}</span>
-                </div>
-                {e.year && <span class="entry-date">{e.year}</span>}
-              </li>
-            ))}
-          </ul>
-        : <p class="empty-state">Education will appear here once added in the CMS.</p>
-      }
-    </section>
+  {resumeUrl && (
+    <div class="resume-row">
+      <a href={resumeUrl} download class="resume-link">Download Resume (PDF) &#8594;</a>
+    </div>
+  )}
 
+  <div class="monogram monogram--signature">
+    <svg viewBox="0 0 40 28" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 8 14 Q 14 6, 20 14 T 32 14" stroke="#2A1810" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+      <text x="20" y="22" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="10" fill="#2A1810" opacity="0.7">spg</text>
+    </svg>
   </div>
 
 </Layout>
 
 <style>
-  .about-body {
-    max-width: var(--max-width);
+  .resume-row {
+    max-width: var(--max-medium);
+    margin: 0 auto;
+    padding: 0 var(--pad-x) 3rem;
   }
-
-  .about-section {
-    max-width: 860px;
-    margin-bottom: 4rem;
-    padding-bottom: 4rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .about-section:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-  }
-
-  .section-heading {
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid var(--gold);
-    display: inline-block;
-    letter-spacing: -0.01em;
-  }
-
-  .prose { font-size: 1.05rem; line-height: 1.9; color: var(--text-muted); }
-  .prose :global(p) { margin-bottom: 1.4rem; }
-
-  .entry-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-
-  .entry {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 2rem;
-    padding-bottom: 1.25rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .entry:last-child { border-bottom: none; padding-bottom: 0; }
-
-  .entry-main {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-  .entry-main strong {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--navy);
-  }
-  .entry-sub {
+  .resume-link {
+    font-family: var(--font-body);
     font-size: 0.9rem;
-    color: var(--text-muted);
+    color: var(--color-accent);
   }
-  .entry-date {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .download-btn {
-    display: inline-block;
-    background: var(--navy);
-    color: white;
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding: 0.75rem 1.75rem;
-    border-radius: 4px;
-    transition: background 0.2s;
-  }
-  .download-btn:hover { background: var(--navy-mid); }
-
-  .empty-state {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    font-style: italic;
-  }
+  .resume-link:hover { opacity: 0.7; }
 </style>

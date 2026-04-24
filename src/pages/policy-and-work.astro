@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import { sanityClient } from '../lib/sanity';
 
 let works: any[] = [];
-let categories: any[] = [];
 try {
   works = await sanityClient.fetch(`
     *[_type == "policyAndWork"] | order(publishedAt desc) {
@@ -13,163 +12,59 @@ try {
       externalUrl
     }
   `);
-  categories = await sanityClient.fetch(`*[_type == "category"] | order(title asc) { _id, title }`);
 } catch (e) {}
 
-// Group by category
-const grouped: Record<string, any[]> = {};
-for (const item of works) {
-  const cat = item.category ?? 'Uncategorized';
-  if (!grouped[cat]) grouped[cat] = [];
-  grouped[cat].push(item);
+function getYear(dateStr: string | null): string {
+  if (!dateStr) return '';
+  return new Date(dateStr).getFullYear().toString();
 }
-
-const placeholder = [
-  { _id: '1', title: 'Economic Equity Framework for Mid-Size Cities', description: 'A structured analysis of fiscal policy levers available to municipal governments for closing wealth gaps.', category: 'Economic Equity', publishedAt: '2024-10-01' },
-  { _id: '2', title: 'Workforce Pipeline Assessment Report', description: 'Evaluation of community college partnership models and their effectiveness in connecting graduates to quality employment.', category: 'Workforce Development', publishedAt: '2024-07-15' },
-  { _id: '3', title: 'Community Investment Act: Summary & Commentary', description: 'Plain-language summary and policy commentary on recent federal community investment legislation.', category: 'Community Investment', publishedAt: '2024-05-20' },
-];
-
-const hasContent = works.length > 0;
-const displayWorks = hasContent ? grouped : { 'Sample Work': placeholder };
 ---
 
-<Layout title="Policy & Work — Sarah Pemberton Greenway" description="White papers, policy summaries, and research by Sarah Pemberton Greenway.">
+<Layout title="Policy & Work — Sarah Speaks Policy" description="Policy writing, research, and selected work by Sarah Pemberton Greenway.">
 
-  <div class="page-hero">
-    <div class="container">
-      <span class="section-label">Policy & Work</span>
-      <h1>Research &amp; Analysis</h1>
-      <p>White papers, policy summaries, and structured research — organized by topic.</p>
-    </div>
+  <div class="page-title">
+    <div class="page-label">Policy and Work</div>
+    <h1 class="page-heading">[Page tagline — written later.]</h1>
+    <div class="page-subhead">[One to two sentence description of what lives here.]</div>
   </div>
 
-  <div class={`work-body container section-pad${!hasContent ? ' is-placeholder' : ''}`}>
-    {!hasContent && (
-      <div class="placeholder-notice">
-        Sample content — add real entries in Sanity Studio to replace this.
-      </div>
-    )}
-    {Object.entries(displayWorks).map(([cat, items]) => (
-      <section class="work-category">
-        <h2 class="category-heading">{cat}</h2>
-        <ul class="work-list">
-          {items.map((item: any) => (
-            <li class="work-item">
-              <div class="work-text">
-                <h3>{item.title}</h3>
-                {item.description && <p>{item.description}</p>}
-                {item.publishedAt && (
-                  <span class="work-date">
-                    {new Date(item.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
-                  </span>
-                )}
+  <section class="container-wide" style="padding-top: 3rem; padding-bottom: 4rem;">
+    <div class="portfolio-list">
+      {works.length > 0
+        ? works.map((item: any) => {
+            const href = item.fileUrl ?? item.externalUrl ?? '#';
+            const meta = [item.category, getYear(item.publishedAt)].filter(Boolean).join(' · ');
+            return (
+              <a href={href} class="portfolio-piece" target={item.externalUrl ? '_blank' : undefined} rel={item.externalUrl ? 'noopener' : undefined} download={item.fileUrl ? true : undefined} style="display: block;">
+                <div class="meta-row">
+                  <span class="meta">{meta || 'Work'}</span>
+                  <span class="arrow">&#8594;</span>
+                </div>
+                <h2 class="title">{item.title}</h2>
+                {item.description && <p class="description">{item.description}</p>}
+              </a>
+            );
+          })
+        : <>
+            <a href="#" class="portfolio-piece" style="display: block; opacity: 0.4; pointer-events: none;">
+              <div class="meta-row">
+                <span class="meta">Capstone &middot; 2026</span>
+                <span class="arrow">&#8594;</span>
               </div>
-              {(item.fileUrl || item.externalUrl) && (
-                <a
-                  href={item.fileUrl ?? item.externalUrl}
-                  target="_blank"
-                  rel="noopener"
-                  class="download-btn"
-                  download={item.fileUrl ? true : undefined}
-                >
-                  {item.fileUrl ? 'Download PDF' : 'View'}
-                </a>
-              )}
-            </li>
-          ))}
-        </ul>
-      </section>
-    ))}
-  </div>
+              <h2 class="title">Mutual Capital Impact</h2>
+              <p class="description">A policy framework for employer-governed pooled capital in regional economic development.</p>
+            </a>
+            <a href="#" class="portfolio-piece" style="display: block; opacity: 0.4; pointer-events: none;">
+              <div class="meta-row">
+                <span class="meta">[Category] &middot; [Year]</span>
+                <span class="arrow">&#8594;</span>
+              </div>
+              <h2 class="title">[Piece title]</h2>
+              <p class="description">[One-line description of the piece.]</p>
+            </a>
+          </>
+      }
+    </div>
+  </section>
 
 </Layout>
-
-<style>
-  .work-body { max-width: var(--max-width); }
-
-  .placeholder-notice {
-    display: inline-block;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #b07d2a;
-    background: #fef3dc;
-    border: 1px dashed #e8b455;
-    border-radius: 4px;
-    padding: 0.45rem 1rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .work-category {
-    max-width: 860px;
-    margin-bottom: 4rem;
-  }
-
-  .category-heading {
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid var(--gold);
-    display: inline-block;
-  }
-
-  .work-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .work-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-    padding: 1.5rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .work-item:last-child { border-bottom: none; }
-
-  .work-text { flex: 1; }
-  .work-text h3 {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 0.4rem;
-    line-height: 1.35;
-  }
-  .work-text p {
-    font-size: 0.92rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 0.5rem;
-  }
-  .work-date {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    letter-spacing: 0.02em;
-  }
-
-  .download-btn {
-    display: inline-block;
-    background: var(--navy);
-    color: white;
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 0.5rem 1.1rem;
-    border-radius: 4px;
-    white-space: nowrap;
-    transition: background 0.2s;
-    flex-shrink: 0;
-  }
-  .download-btn:hover { background: var(--navy-mid); }
-
-  .is-placeholder .work-item { opacity: 0.45; }
-  .is-placeholder .work-text h3 { font-style: italic; }
-</style>
