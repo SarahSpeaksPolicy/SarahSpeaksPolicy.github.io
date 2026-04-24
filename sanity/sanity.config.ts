@@ -22,11 +22,11 @@ export default defineConfig({
           .items([
             S.listItem().title('Hero / Banner').id('hero')
               .child(S.document().schemaType('hero').documentId('hero')),
-            S.listItem().title('About Sarah').id('about')
-              .child(S.document().schemaType('about').documentId('about')),
+            S.listItem().title('On Background').id('onBackground')
+              .child(S.document().schemaType('onBackground').documentId('onBackground')),
             S.divider(),
-            S.listItem().title('Policy & Work').schemaType('policyWork')
-              .child(S.documentTypeList('policyWork')),
+            S.listItem().title('Policy & Work').schemaType('policyAndWork')
+              .child(S.documentTypeList('policyAndWork')),
             S.divider(),
             S.listItem().title('Marginalia').schemaType('marginalia')
               .child(S.documentTypeList('marginalia')),

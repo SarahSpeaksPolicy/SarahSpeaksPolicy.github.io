@@ -11,6 +11,12 @@ export const about = {
       description: 'One-line statement shown on the homepage hero',
     },
     {
+      name: 'junk',
+      title: 'Junk',
+      type: 'string',
+      description: 'schema changes auto deploy',
+    },
+    {
       name: 'fullBio',
       title: 'Full Biography (About Page)',
       type: 'array',

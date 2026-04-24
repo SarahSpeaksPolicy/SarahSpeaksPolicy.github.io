@@ -6,13 +6,12 @@ import imageUrlBuilder from '@sanity/image-url';
 let about: any = null;
 try {
   about = await sanityClient.fetch(`*[_type == "about"][0]{
-    positioningStatement, shortBio, photo
+    positioningStatement, photo
   }`);
 } catch (e) {}
 
 const hasContent = !!about?.positioningStatement;
 const positioning = about?.positioningStatement ?? 'Positioning Statement Fallback';
-const shortBio = about?.shortBio ?? 'Short Bio Fallback';
 
 let photoUrl: string | null = null;
 if (about?.photo?.asset) {
