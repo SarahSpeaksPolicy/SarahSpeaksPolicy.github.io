@@ -38,6 +38,7 @@ export const about = {
           fields: [
             { name: 'organization', title: 'Organization', type: 'string' },
             { name: 'role', title: 'Role / Duration', type: 'string' },
+            { name: 'description', title: 'Description', type: 'string' },
           ],
           preview: { select: { title: 'organization', subtitle: 'role' } },
         },

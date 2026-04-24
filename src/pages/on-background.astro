@@ -41,6 +41,7 @@ const resumeUrl = about?.resume?.asset?.url ?? null;
           <div class="credential-row">
             <span>{e.organization}</span>
             <span class="detail">{e.role}</span>
+            {e.description && <span class="credential-description">{e.description}</span>}
           </div>
         ))}
       </div>
