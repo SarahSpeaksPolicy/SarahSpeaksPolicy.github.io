@@ -3,16 +3,23 @@ import Layout from '../layouts/Layout.astro';
 import { sanityClient } from '../lib/sanity';
 
 let works: any[] = [];
+let pageData: any = null;
 try {
-  works = await sanityClient.fetch(`
-    *[_type == "policyAndWork"] | order(publishedAt desc) {
-      _id, title, description, publishedAt,
-      "category": category->title,
-      "fileUrl": file.asset->url,
-      externalUrl
-    }
-  `);
+  [works, pageData] = await Promise.all([
+    sanityClient.fetch(`
+      *[_type == "policyAndWork"] | order(publishedAt desc) {
+        _id, title, description, publishedAt,
+        "category": category->title,
+        "fileUrl": file.asset->url,
+        externalUrl
+      }
+    `),
+    sanityClient.fetch(`*[_type == "policyAndWorkPage"][0]{ pageHeading, pageSubhead }`),
+  ]);
 } catch (e) {}
+
+const pageHeading = pageData?.pageHeading ?? '[Page tagline — written later.]';
+const pageSubhead = pageData?.pageSubhead ?? '[One to two sentence description of what lives here.]';
 
 function getYear(dateStr: string | null): string {
   if (!dateStr) return '';
@@ -24,8 +31,8 @@ function getYear(dateStr: string | null): string {
 
   <div class="page-title">
     <div class="page-label">Policy and Work</div>
-    <h1 class="page-heading">[Page tagline — written later.]</h1>
-    <div class="page-subhead">[One to two sentence description of what lives here.]</div>
+    <h1 class="page-heading">{pageHeading}</h1>
+    <div class="page-subhead">{pageSubhead}</div>
   </div>
 
   <section class="container-wide" style="padding-top: 3rem; padding-bottom: 4rem;">

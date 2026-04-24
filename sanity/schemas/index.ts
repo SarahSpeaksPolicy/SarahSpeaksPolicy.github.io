@@ -158,6 +158,27 @@ export const contact = {
   preview: { prepare: () => ({ title: 'Contact' }) },
 };
 
+// policyAndWorkPage.ts
+export const policyAndWorkPage = {
+  name: 'policyAndWorkPage',
+  title: 'Policy & Work — Page',
+  type: 'document',
+  fields: [
+    {
+      name: 'pageHeading',
+      title: 'Page Heading',
+      type: 'string',
+    },
+    {
+      name: 'pageSubhead',
+      title: 'Page Subhead',
+      type: 'text',
+      rows: 2,
+    },
+  ],
+  preview: { prepare: () => ({ title: 'Policy & Work — Page' }) },
+};
+
 // marginalia.ts
 export const marginalia = {
   name: 'marginalia',
