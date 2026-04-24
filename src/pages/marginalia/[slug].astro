@@ -1,214 +1,90 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { marked } from 'marked';
-import { createClient } from '@sanity/client';
-import imageUrlBuilder from '@sanity/image-url';
+import { toHTML } from '@portabletext/to-html';
+import { sanityClient } from '../../lib/sanity';
 
 export async function getStaticPaths() {
   try {
-    const client = createClient({
-      projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
-      dataset: import.meta.env.PUBLIC_SANITY_DATASET ?? 'production',
-      apiVersion: '2026-03-21',
-      useCdn: false,
-    });
-    const posts = await client.fetch(`
-      *[_type == "marginalia" && defined(slug.current)] {
-        title, publishedAt, excerpt, body, headerImage,
-        "slug": slug.current,
-        "category": category->title
+    const posts = await sanityClient.fetch(`
+      *[_type == "marginalia" && defined(slug.current)] | order(publishedAt desc) {
+        title, publishedAt, excerpt, body,
+        "slug": slug.current
       }
     `);
-    return posts.map((post: any) => ({
+    return posts.map((post: any, i: number) => ({
       params: { slug: post.slug },
-      props: { post },
+      props: { post, previousPost: posts[i + 1] ?? null },
     }));
   } catch (e) {
     return [];
   }
 }
 
-const { post } = Astro.props;
-const bodyHTML = post.body
-  ? typeof post.body === 'string'
-    ? await marked(post.body)
-    : ''
-  : '';
+const { post, previousPost } = Astro.props;
 
-let headerImageUrl: string | null = null;
-if (post.headerImage?.asset) {
-  const client = createClient({
-    projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
-    dataset: import.meta.env.PUBLIC_SANITY_DATASET ?? 'production',
-    apiVersion: '2024-01-01',
-    useCdn: true,
-  });
-  const builder = imageUrlBuilder(client);
-  headerImageUrl = builder.image(post.headerImage).width(1600).fit('max').url();
-}
+const bodyHTML = post.body ? toHTML(post.body) : '';
 
 function formatDate(str: string) {
   return new Date(str).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 }
+
+const prevMon = previousPost
+  ? new Date(previousPost.publishedAt).toLocaleDateString('en-US', { month: 'short' })
+  : '';
+const prevDay = previousPost ? new Date(previousPost.publishedAt).getDate() : 0;
 ---
 
-<Layout title={`${post.title} — Sarah Pemberton Greenway`} description={post.excerpt}>
-  <article class="post-page">
-    <header class="page-hero" style={headerImageUrl ? `--custom-header-image: url('${headerImageUrl}')` : ''}>
-      <div class="container">
-        {post.category && <span class="section-label">{post.category}</span>}
-        <h1>{post.title}</h1>
-        <div class="post-meta">
-          <span>Sarah Pemberton Greenway</span>
-          <span class="sep">·</span>
-          <time>{formatDate(post.publishedAt)}</time>
-        </div>
-      </div>
-    </header>
+<Layout title={`${post.title} — Marginalia — Sarah Speaks Policy`} description={post.excerpt}>
 
-    <div class="post-body" id="blogcont">
-      <h1 class="scrolledTitle">{post.title}</h1>
-      <div class="prose" set:html={bodyHTML} />
-      <div class="post-footer">
-        <a href="/marginalia" class="back-link">← Back to Marginalia</a>
-      </div>
+  <div class="back-link">
+    <a href="/marginalia">&larr; &nbsp; Back to Marginalia</a>
+  </div>
+
+  <div class="post-header">
+    <div class="post-date">{formatDate(post.publishedAt)}</div>
+    <h1 class="post-title">{post.title}</h1>
+    {post.excerpt && <div class="post-standfirst">{post.excerpt}</div>}
+  </div>
+
+  <div class="asterism">&bull; &bull; &bull;</div>
+
+  <article class="post-body">
+    <div set:html={bodyHTML} />
+    <div class="monogram monogram--signature">
+      <svg viewBox="0 0 40 28" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 8 14 Q 14 6, 20 14 T 32 14" stroke="#2A1810" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+        <text x="20" y="22" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="10" fill="#2A1810" opacity="0.7">spg</text>
+      </svg>
     </div>
   </article>
 
-  <script>
-    const hero = document.querySelector('.post-page .page-hero');
-    const scrolledTitle = document.querySelector('.post-page .scrolledTitle');
-    const stickyHeader = document.querySelector('.site-header');
+  {previousPost && (
+    <section class="previously">
+      <div class="block">
+        <div class="label">Previously</div>
+        <a href={`/marginalia/${previousPost.slug}`} class="marginalia-entry prev-entry">
+          <div class="date">{prevMon}<br />{prevDay}</div>
+          <div>
+            <div class="title prev-title">{previousPost.title}</div>
+            {previousPost.excerpt && <div class="description prev-desc">{previousPost.excerpt}</div>}
+          </div>
+          <div class="arrow prev-arrow">&#8594;</div>
+        </a>
+      </div>
+    </section>
+  )}
 
-    if (hero && scrolledTitle) {
-      let ticking = false;
-
-      const updateHeroAndTitle = () => {
-        const headerHeight = stickyHeader?.getBoundingClientRect().height ?? 68;
-        const fadeDistance = Math.max(hero.offsetHeight - headerHeight, 200);
-        const progress = Math.min(window.scrollY / fadeDistance, 1);
-
-        hero.style.opacity = String(1 - progress);
-        hero.style.transform = `translateY(${progress * -24}px)`;
-
-        if (progress > 0.78) {
-          scrolledTitle.classList.add('is-visible');
-        } else {
-          scrolledTitle.classList.remove('is-visible');
-        }
-
-        ticking = false;
-      };
-
-      const onScroll = () => {
-        if (!ticking) {
-          window.requestAnimationFrame(updateHeroAndTitle);
-          ticking = true;
-        }
-      };
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      updateHeroAndTitle();
-    }
-  </script>
 </Layout>
 
 <style>
-  .post-meta { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-top: 1rem; }
-  .sep { margin: 0 0.5rem; }
-
-  .post-page .page-hero {
-    transition: opacity 0.12s linear;
-    will-change: opacity, transform;
+  .prev-entry {
+    text-decoration: none;
+    border-top: 0.5px solid var(--color-rule-soft);
+    padding: 1.2rem 0 1rem;
+    border-bottom: none;
   }
 
-  .post-body {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: clamp(2rem, 4vw, 3rem) 2rem;
-  }
-
-  .scrolledTitle {
-    position: fixed;
-    top: 68px;
-    left: 0;
-    width: 100%;
-    z-index: 95;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.25s ease, transform 0.25s ease;
-    margin-bottom: 0;
-    background: var(--cream);
-    padding-block: 0.65rem;
-    padding-inline: max(2rem, calc((100vw - var(--max-width)) / 2 + 2rem));
-    border-bottom: 2px solid #111111;
-    color: #111111;
-    font-family: var(--font-display);
-    font-size: clamp(1.55rem, 3vw, 2.15rem);
-    line-height: 1.2;
-    pointer-events: none;
-  }
-
-  .scrolledTitle.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .prose {
-    max-width: 860px;
-  }
-
-  @media (max-width: 720px) {
-    .scrolledTitle {
-      padding-block: 0.55rem;
-      border-bottom-width: 4px;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .scrolledTitle {
-      padding-inline: max(1.25rem, calc((100vw - var(--max-width)) / 2 + 1.25rem));
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .post-page .page-hero,
-    .scrolledTitle {
-      transition: none;
-    }
-  }
-
-  .prose { font-size: 1.1rem; line-height: 1.9; color: var(--text); }
-  .prose :global(p) { margin-bottom: 1.5rem; }
-  .prose :global(h2) {
-    font-family: var(--font-display);
-    font-size: 1.8rem;
-    color: var(--navy);
-    margin: 2.5rem 0 1rem;
-  }
-  .prose :global(h3) {
-    font-family: var(--font-display);
-    font-size: 1.35rem;
-    color: var(--navy);
-    margin: 2rem 0 0.75rem;
-  }
-  .prose :global(ul), .prose :global(ol) {
-    padding-left: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  .prose :global(li) { margin-bottom: 0.5rem; }
-  .prose :global(blockquote) {
-    border-left: 3px solid var(--gold);
-    padding-left: 1.5rem;
-    margin: 2rem 0;
-    font-style: italic;
-    color: var(--text-muted);
-    font-size: 1.15rem;
-  }
-  .prose :global(a) { color: var(--gold); text-decoration: underline; }
-
-  .post-footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
-  .back-link { color: var(--gold); font-weight: 600; font-size: 0.9rem; transition: color 0.2s; }
-  .back-link:hover { color: var(--navy); }
+  .prev-title { font-size: 16px; }
+  .prev-desc { font-size: 12px; }
+  .prev-arrow { font-size: 14px; }
 </style>

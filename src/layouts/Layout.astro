@@ -29,10 +29,10 @@ const currentPath = Astro.url.pathname;
     <header class="site-header">
       <a href="/" class="wordmark">Sarah Speaks Policy</a>
       <nav class="site-nav">
-        <a href="/on-background" class={currentPath.startsWith('/on-background') ? 'active' : ''}>On Background</a>
-        <a href="/policy-and-work" class={currentPath.startsWith('/policy-and-work') ? 'active' : ''}>Policy & Work</a>
-        <a href="/marginalia" class={currentPath.startsWith('/marginalia') ? 'active' : ''}>Marginalia</a>
-        <a href="/contact" class={currentPath.startsWith('/contact') ? 'active' : ''}>Contact</a>
+        <a href="/on-background" class={currentPath.startsWith('/on-background') ? 'is-active' : ''}>On Background</a>
+        <a href="/policy-and-work" class={currentPath.startsWith('/policy-and-work') ? 'is-active' : ''}>Policy & Work</a>
+        <a href="/marginalia" class={currentPath.startsWith('/marginalia') ? 'is-active' : ''}>Marginalia</a>
+        <a href="/contact" class={currentPath.startsWith('/contact') ? 'is-active' : ''}>Contact</a>
       </nav>     
     </header>
 
