@@ -11,13 +11,6 @@ export const about = {
       description: 'One-line statement shown on the homepage hero',
     },
     {
-      name: 'shortBio',
-      title: 'Short Bio (Homepage)',
-      type: 'text',
-      rows: 4,
-      description: '3–4 sentences shown on the homepage',
-    },
-    {
       name: 'fullBio',
       title: 'Full Biography (About Page)',
       type: 'array',
