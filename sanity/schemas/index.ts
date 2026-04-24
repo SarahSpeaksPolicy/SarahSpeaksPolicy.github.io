@@ -179,6 +179,27 @@ export const policyAndWorkPage = {
   preview: { prepare: () => ({ title: 'Policy & Work — Page' }) },
 };
 
+// marginaliaPage.ts
+export const marginaliaPage = {
+  name: 'marginaliaPage',
+  title: 'Marginalia — Page',
+  type: 'document',
+  fields: [
+    {
+      name: 'pageHeading',
+      title: 'Page Heading',
+      type: 'string',
+    },
+    {
+      name: 'pageSubhead',
+      title: 'Page Subhead',
+      type: 'text',
+      rows: 2,
+    },
+  ],
+  preview: { prepare: () => ({ title: 'Marginalia — Page' }) },
+};
+
 // marginalia.ts
 export const marginalia = {
   name: 'marginalia',
@@ -202,18 +223,6 @@ export const marginalia = {
       name: 'publishedAt',
       title: 'Published Date',
       type: 'date',
-    },
-    {
-      name: 'category',
-      title: 'Category',
-      type: 'reference',
-      to: [{ type: 'category' }],
-    },
-    {
-      name: 'headerImage',
-      title: 'Header Image (overrides default)',
-      type: 'image',
-      options: { hotspot: true },
     },
     {
       name: 'excerpt',

@@ -4,7 +4,7 @@ import { visionTool } from '@sanity/vision';
 import { markdownSchema } from 'sanity-plugin-markdown';
 
 import { hero } from './schemas/hero';
-import { about, category, policyWork, policyAndWorkPage, contact, marginalia } from './schemas/index';
+import { about, category, policyWork, policyAndWorkPage, contact, marginalia, marginaliaPage } from './schemas/index';
 
 export default defineConfig({
   name: 'sarahspeakspolicy',
@@ -30,7 +30,9 @@ export default defineConfig({
             S.listItem().title('Policy & Work — Pieces').schemaType('policyAndWork')
               .child(S.documentTypeList('policyAndWork')),
             S.divider(),
-            S.listItem().title('Marginalia').schemaType('marginalia')
+            S.listItem().title('Marginalia — Page').id('marginaliaPage')
+              .child(S.document().schemaType('marginaliaPage').documentId('marginaliaPage')),
+            S.listItem().title('Marginalia — Posts').schemaType('marginalia')
               .child(S.documentTypeList('marginalia')),
             S.divider(),
             S.listItem().title('Contact').id('contact')
@@ -43,6 +45,6 @@ export default defineConfig({
   ],
 
   schema: {
-    types: [hero, about, category, policyWork, policyAndWorkPage, contact, marginalia],
+    types: [hero, about, category, policyWork, policyAndWorkPage, contact, marginalia, marginaliaPage],
   },
 });
