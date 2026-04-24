@@ -25,7 +25,7 @@ if (about?.photo?.asset) {
       <section class="home-hero">
       <!-- Replace the inline background with your actual hero image -->
         {photoUrl
-          ? <div class="home-portrait" style="background-image: url('{photoUrl}');"></div>
+          ? <div class="home-portrait" style={`background-image: url('${photoUrl}');`}></div>
           : <div class="home-portrait photo-placeholder"><span>SPG</span></div>
         }
       
