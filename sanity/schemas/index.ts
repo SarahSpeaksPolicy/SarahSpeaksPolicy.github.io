@@ -1,7 +1,7 @@
-// about.ts
+// onBackground.ts
 export const about = {
-  name: 'about',
-  title: 'About Sarah',
+  name: 'onBackground',
+  title: 'On Background',
   type: 'document',
   fields: [
     {
@@ -46,7 +46,7 @@ export const about = {
       ],
     },
   ],
-  preview: { prepare: () => ({ title: 'About Sarah' }) },
+  preview: { prepare: () => ({ title: 'On Background' }) },
 };
 
 // category.ts
@@ -59,9 +59,9 @@ export const category = {
   ],
 };
 
-// policyWork.ts
+// policyAndWork.ts
 export const policyWork = {
-  name: 'policyWork',
+  name: 'policyAndWork',
   title: 'Policy & Work',
   type: 'document',
   fields: [
