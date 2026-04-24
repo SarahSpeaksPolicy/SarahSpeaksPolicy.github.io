@@ -29,23 +29,8 @@ export const about = {
       options: { accept: '.pdf' },
     },
     {
-      name: 'education',
-      title: 'Education',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'institution', title: 'Institution', type: 'string' },
-            { name: 'degree', title: 'Degree', type: 'string' },
-          ],
-          preview: { select: { title: 'institution', subtitle: 'degree' } },
-        },
-      ],
-    },
-    {
       name: 'experience',
-      title: 'Selected Experience',
+      title: 'Selected Background',
       type: 'array',
       of: [
         {

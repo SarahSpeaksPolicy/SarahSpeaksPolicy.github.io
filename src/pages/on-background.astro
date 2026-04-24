@@ -33,24 +33,10 @@ const resumeUrl = about?.resume?.asset?.url ?? null;
     }
   </div>
 
-  {education.length > 0 && (
-    <div class="credentials">
-      <div class="credentials-block">
-        <div class="section-label">Education</div>
-        {education.map((e: any) => (
-          <div class="credential-row">
-            <span>{e.institution}</span>
-            <span class="detail">{e.degree}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  )}
-
   {experience.length > 0 && (
     <div class="credentials">
       <div class="credentials-block">
-        <div class="section-label">Selected experience</div>
+        <div class="section-label">Selected background</div>
         {experience.map((e: any) => (
           <div class="credential-row">
             <span>{e.organization}</span>
