@@ -3,7 +3,6 @@ import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
 import { markdownSchema } from 'sanity-plugin-markdown';
 
-import { hero } from './schemas/hero';
 import { about, category, policyWork, policyAndWorkPage, contact, marginalia, marginaliaPage } from './schemas/index';
 
 export default defineConfig({
@@ -20,8 +19,6 @@ export default defineConfig({
         S.list()
           .title('Content')
           .items([
-            S.listItem().title('Hero / Banner').id('hero')
-              .child(S.document().schemaType('hero').documentId('hero')),
             S.listItem().title('On Background').id('onBackground')
               .child(S.document().schemaType('onBackground').documentId('onBackground')),
             S.divider(),
@@ -45,6 +42,6 @@ export default defineConfig({
   ],
 
   schema: {
-    types: [hero, about, category, policyWork, policyAndWorkPage, contact, marginalia, marginaliaPage],
+    types: [about, category, policyWork, policyAndWorkPage, contact, marginalia, marginaliaPage],
   },
 });
