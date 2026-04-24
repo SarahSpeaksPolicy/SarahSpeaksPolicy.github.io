@@ -77,6 +77,10 @@ a {
   color: var(--color-ink);
 }
 
+.centered-text {
+  text-align: center;
+}
+
 .site-nav {
   display: flex;
   gap: 2.5rem;
