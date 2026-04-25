@@ -28,13 +28,27 @@ const currentPath = Astro.url.pathname;
   <body>
     <header class="site-header">
       <a href="/" class="wordmark">Sarah Speaks Policy</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
       <nav class="site-nav">
         <a href="/on-background" class={currentPath.startsWith('/on-background') ? 'is-active' : ''}>On Background</a>
         <a href="/policy-and-work" class={currentPath.startsWith('/policy-and-work') ? 'is-active' : ''}>Policy & Work</a>
         <a href="/marginalia" class={currentPath.startsWith('/marginalia') ? 'is-active' : ''}>Marginalia</a>
         <a href="/contact" class={currentPath.startsWith('/contact') ? 'is-active' : ''}>Contact</a>
-      </nav>     
+      </nav>
     </header>
+
+    <script>
+      const toggle = document.querySelector('.nav-toggle');
+      const nav = document.querySelector('.site-nav');
+      toggle?.addEventListener('click', () => {
+        const open = nav?.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', String(open));
+      });
+    </script>
 
     <main>
       <slot />
