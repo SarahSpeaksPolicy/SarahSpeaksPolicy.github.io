@@ -11,6 +11,7 @@ try {
         _id, title, description, publishedAt,
         "category": category->title,
         "fileUrl": file.asset->url,
+        "fileOriginalFilename": file.asset->originalFilename,
         externalUrl
       }
     `),
@@ -39,10 +40,12 @@ function getYear(dateStr: string | null): string {
     <div class="portfolio-list">
       {works.length > 0
         ? works.map((item: any) => {
-            const href = item.fileUrl ?? item.externalUrl ?? '#';
+            const href = item.fileUrl
+              ? `${item.fileUrl}?dl=${item.fileOriginalFilename ?? 'document.pdf'}`
+              : item.externalUrl ?? '#';
             const meta = [item.category, getYear(item.publishedAt)].filter(Boolean).join(' · ');
             return (
-              <a href={href} class="portfolio-piece" target={item.externalUrl ? '_blank' : undefined} rel={item.externalUrl ? 'noopener' : undefined} download={item.fileUrl ? true : undefined} style="display: block;">
+              <a href={href} class="portfolio-piece" target="_blank" rel="noopener" download={item.fileUrl ? (item.fileOriginalFilename ?? true) : undefined} style="display: block;">
                 <div class="meta-row">
                   <span class="meta">{meta || 'Work'}</span>
                   <span class="arrow">&#8594;</span>
