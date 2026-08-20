@@ -1,0 +1,61 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "npm-dependencies"
+    open-pull-requests-limit: 10
+    groups:
+      npm-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+      npm-patch:
+        applies-to: version-updates
+        update-types:
+          - "patch"
+      npm-minor:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+      npm-major:
+        applies-to: version-updates
+        update-types:
+          - "major"
+
+  - package-ecosystem: "npm"
+    directory: "/sanity"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "npm-dependencies"
+    open-pull-requests-limit: 10
+    groups:
+      sanity-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+      sanity-patch:
+        applies-to: version-updates
+        update-types:
+          - "patch"
+      sanity-minor:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+      sanity-major:
+        applies-to: version-updates
+        update-types:
+          - "major"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "github-actions"
