@@ -14,7 +14,7 @@
     "react-dom": "^19.2.4",
     "react-is": "^19.2.4",
     "sanity": "^6.10.1",
-    "sanity-plugin-markdown": "^9.0.9",
+    "sanity-plugin-markdown": "^9.0.11",
     "styled-components": "^6.5.3"
   }
 }
