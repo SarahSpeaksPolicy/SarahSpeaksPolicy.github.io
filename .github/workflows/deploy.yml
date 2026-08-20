@@ -62,14 +62,14 @@ jobs:
 
       - name: Notify n8n webhook
         if: always()
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          COMMIT_SHA: ${{ github.sha }}
         run: |
-          COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
           if [ -z "$COMMIT_MESSAGE" ]; then
-            COMMIT_MESSAGE="${{ github.sha }}"
+            COMMIT_MESSAGE="$COMMIT_SHA"
           fi
-
           export COMMIT_MESSAGE
-          export COMMIT_SHA="${{ github.sha }}"
 
           python3 - <<'PY' > payload.json
           import json
