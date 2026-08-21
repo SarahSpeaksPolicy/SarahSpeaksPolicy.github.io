@@ -10,7 +10,7 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.1",
     "@portabletext/to-html": "^6.0.0",
-    "@sanity/client": "^8.0.0",
+    "@sanity/client": "^8.1.0",
     "@sanity/image-url": "^2.1.1",
     "astro": "^7.2.3",
     "marked": "^18.0.10"
