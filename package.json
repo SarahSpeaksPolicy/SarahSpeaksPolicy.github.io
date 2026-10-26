@@ -12,11 +12,11 @@
     "@portabletext/to-html": "^6.0.0",
     "@sanity/client": "^8.10.0",
     "@sanity/image-url": "^2.1.1",
-    "astro": "^7.4.1",
+    "astro": "^7.4.2",
     "marked": "^18.1.1"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.11",
+    "@astrojs/check": "^0.9.12",
     "typescript": "^5.0.0"
   }
 }
