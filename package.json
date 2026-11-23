@@ -8,11 +8,11 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.5",
+    "@astrojs/sitemap": "^3.7.6",
     "@portabletext/to-html": "^6.0.0",
     "@sanity/client": "^8.16.0",
     "@sanity/image-url": "^2.2.0",
-    "astro": "^7.4.12",
+    "astro": "^7.4.13",
     "marked": "^18.2.1"
   },
   "devDependencies": {
